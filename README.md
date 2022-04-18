@@ -12,9 +12,9 @@ huskyでnpmではなく、yarnで設定を記述しているため、yarnを使�
 
 # その他のコマンド
 
-- yarn ios (iosの開発時に使用してもよい)
-- yarn Android (Androidの開発時に使用してもよい)
-- yarn fmt (コードを整形してくれます)
+- `yarn ios` (iosの開発時に使用してもよい)
+- `yarn Android` (Androidの開発時に使用してもよい)
+- `yarn fmt` (コードを整形してくれます)
 
 
 何かわからないことがあれば、徳永まで！
