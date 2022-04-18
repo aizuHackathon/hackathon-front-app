@@ -1,3 +1,3 @@
 # hackathon-front-app 
 
-huskyの都合でnpmではyarnを使用してください
+huskyでnpmではなく、yarnで設定を記述しているため、yarnを使用してください
