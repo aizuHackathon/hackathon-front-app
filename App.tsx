@@ -1,5 +1,4 @@
-import React, { ReactNode } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/Home';
@@ -10,9 +9,10 @@ type RootStackParamList = {
   Details: undefined;
 };
 
+// TODO: Stackがコンポーネントとして使えないとerrorが出るので、anyを使わずにできるようにする。
 const Stack = createNativeStackNavigator<RootStackParamList>() as any;
 
-const App: React.FC = () => (
+const App: React.VFC = () => (
   <NavigationContainer>
     <Stack.Navigator initialRouteName='Home'>
       <Stack.Screen name='Home' component={HomeScreen} />
@@ -20,14 +20,5 @@ const App: React.FC = () => (
     </Stack.Navigator>
   </NavigationContainer>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
