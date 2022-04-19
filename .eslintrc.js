@@ -30,4 +30,11 @@ module.exports = {
       version: 'detect',
     },
   },
+  // settings: {
+  //   'import/resolver': {
+  //     'node': {
+  //       'paths': ['src']
+  //     }
+  //   }
+  // }
 };
