@@ -10,7 +10,7 @@ type RootStackParamList = {
 };
 
 // TODO: Stackがコンポーネントとして使えないとerrorが出るので、anyを使わずにできるようにする。
-const Stack = createNativeStackNavigator<RootStackParamList>() as any;
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App: React.VFC = () => (
   <NavigationContainer>
