@@ -7,6 +7,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+type RadioButtonProps = {
+  gender: string;
+  checkedGender: string;
+};
+
 const GenderSelect: React.FC = ({ navigation }) => {
   const [checkedGender, setCheckedGender] = useState('');
   const gender = ['おとこ', 'おんな', 'そのた'];
@@ -33,7 +38,7 @@ const GenderSelect: React.FC = ({ navigation }) => {
   );
 };
 
-function RadioButton(props: any) {
+function RadioButton(props: RadioButtonProps) {
   return (
     <View style={styles.radioButton}>
       {props.gender === props.checkedGender && (
