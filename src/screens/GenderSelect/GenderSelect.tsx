@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, TouchableOpacity, Button } from 'react-native';
+import { View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { genderStyles } from './GenderSelectStyles';
 
 type RadioButtonProps = {
@@ -29,6 +29,7 @@ export const GenderSelect: React.FC = () => {
           />
         );
       })}
+      <GoBackButton onClick={() => console.log('hi')} />
       <SubmitButton onClick={() => console.log('hi')} />
     </View>
   );
@@ -57,6 +58,13 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 };
 
 const SubmitButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+  return (
+    <TouchableOpacity activeOpacity={0.7} style={genderStyles.goToBackButton}>
+      <Text style={genderStyles.buttonText}>もどる</Text>
+    </TouchableOpacity>
+  );
+};
+const GoBackButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   return (
     <TouchableOpacity activeOpacity={0.7} style={genderStyles.goToNextButton}>
       <Text style={genderStyles.buttonText}>かくてい</Text>
