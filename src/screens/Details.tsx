@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View, Button } from 'react-native';
+import { Navigation } from './screan';
 
-const DetailsScreen: React.FC = ({ navigation }) => {
+const DetailsScreen: React.FC<Navigation> = ({ navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
