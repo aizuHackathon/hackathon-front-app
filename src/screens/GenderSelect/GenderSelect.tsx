@@ -15,7 +15,7 @@ enum Gender {
   Other = 'そのた',
 }
 
-export const GenderSelect: React.FC = () => {
+export const GenderSelect: React.FC = ({ navigation }) => {
   const [checkedGender, setCheckedGender] = useState<Gender>(Gender.Male);
   const gender: Array<Gender> = [Gender.Male, Gender.Female, Gender.Other];
   return (
@@ -44,9 +44,7 @@ export const GenderSelect: React.FC = () => {
           }}
         >
           <ProcessButton
-            onClick={() => {
-              console.log('hi');
-            }}
+            onClick={() => navigation.push('InitializeUserForm')}
             content={'もどる'}
           />
           <ProcessButton

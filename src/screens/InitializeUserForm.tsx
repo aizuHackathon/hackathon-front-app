@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, Button, TextInput } from 'react-native';
+import { initializeUserFormStyles } from './InitializeUserFormStyles';
+import { ProcessButton } from '../components/ProcessButton/ProcessButton';
 
 type InitializeUserData = {
   name: string;
@@ -8,7 +10,7 @@ type InitializeUserData = {
   age: number;
 };
 
-const InitializeUserFormScreen: React.FC = ({ navigation }) => {
+export const InitializeUserForm: React.FC = ({ navigation }) => {
   const initializeUserData: InitializeUserData = {
     name: '',
     height: 0,
@@ -33,37 +35,49 @@ const InitializeUserFormScreen: React.FC = ({ navigation }) => {
 
   console.log(initializeUserData);
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>おなまえ</Text>
-      <TextInput
-        placeholder='筋肉太郎'
-        onChangeText={onChangeName}
-        value={name}
-      />
-      <Text>しんちょう</Text>
-      <TextInput
-        placeholder='Type here'
-        onChangeText={onChangeHeight}
-        value={height}
-      />
-      <Text>たいじゅう</Text>
-      <TextInput
-        placeholder='Type here'
-        onChangeText={onChangeWeight}
-        value={weight}
-      />
-      <Text>ねんれい</Text>
-      <TextInput
-        placeholder='Type here'
-        onChangeText={onChangeAge}
-        value={age}
-      />
-      <Button
-        title='つぎへ'
-        onPress={() => navigation.push('InitializeUserForm')}
+    <View
+      style={[initializeUserFormStyles.container, { flexDirection: 'column' }]}
+    >
+      <View style={{ flex: 1 }}>
+        <Text style={initializeUserFormStyles.text}>おなまえ</Text>
+        <TextInput
+          placeholder='筋肉太郎'
+          onChangeText={onChangeName}
+          value={name}
+          style={initializeUserFormStyles.form}
+        />
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text style={initializeUserFormStyles.text}>しんちょう</Text>
+        <TextInput
+          placeholder='Type here'
+          onChangeText={onChangeHeight}
+          value={height}
+          style={initializeUserFormStyles.form}
+        />
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text style={initializeUserFormStyles.text}>たいじゅう</Text>
+        <TextInput
+          placeholder='Type here'
+          onChangeText={onChangeWeight}
+          value={weight}
+          style={initializeUserFormStyles.form}
+        />
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text style={initializeUserFormStyles.text}>ねんれい</Text>
+        <TextInput
+          placeholder='Type here'
+          onChangeText={onChangeAge}
+          value={age}
+          style={initializeUserFormStyles.form}
+        />
+      </View>
+      <ProcessButton
+        onClick={() => navigation.push('GenderSelect')}
+        content={'つぎへ'}
       />
     </View>
   );
 };
-
-export default InitializeUserFormScreen;
