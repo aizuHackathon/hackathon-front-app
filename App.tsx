@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { InitializeUserForm } from './src/screens/InitializeUserForm';
+import { InitializeUserForm } from './src/screens/InitializeUserForm/InitializeUserForm';
 import { GenderSelect } from './src/screens/GenderSelect/GenderSelect';
 
 type RootStackParamList = {
