@@ -5,12 +5,11 @@ import { buttonStyles } from './ProcessButtonStyles';
 export const ProcessButton: React.FC<{
   onClick: () => void;
   content: string;
-  style?: object;
-}> = ({ onClick, content, style }) => {
+}> = ({ onClick, content }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      style={[buttonStyles.processButton, style]}
+      style={buttonStyles.processButton}
       onPress={onClick}
     >
       <Text style={buttonStyles.buttonText}>{content}</Text>

@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 
-export const genderStyles = StyleSheet.create({
+export const UserFormPartTwoStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#E7C0C0',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E7C0C0',
   },
   option: {
     flexDirection: 'row',

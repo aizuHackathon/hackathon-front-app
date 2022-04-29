@@ -1,13 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-export const initializeUserFormStyles = StyleSheet.create({
+export const UserFormPartOneStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E7C0C0',
-    flexDirection: 'column',
-    paddingHorizontal: 87,
   },
   text: {
     color: 'white',
@@ -16,7 +13,7 @@ export const initializeUserFormStyles = StyleSheet.create({
   },
   form: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'flex-start',
     padding: 10,
     width: 232,

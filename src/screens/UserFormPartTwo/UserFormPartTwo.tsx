@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { genderStyles } from './GenderSelectStyles';
+import { UserFormPartTwoStyles } from './UserFormPartTwoStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
+import { Navigation } from '../screan';
 
 type RadioButtonProps = {
   gender: Gender;
@@ -15,15 +16,17 @@ enum Gender {
   Other = 'そのた',
 }
 
-export const GenderSelect: React.FC = ({ navigation }) => {
+export const UserFormPartTwo: React.FC<Navigation> = ({ navigation }) => {
   const [checkedGender, setCheckedGender] = useState<Gender>(Gender.Male);
   const gender: Array<Gender> = [Gender.Male, Gender.Female, Gender.Other];
   return (
-    <View style={[genderStyles.container, { flexDirection: 'column' }]}>
-      <View style={[genderStyles.container, { flex: 1 }]}>
+    <View
+      style={[UserFormPartTwoStyles.container, { flexDirection: 'column' }]}
+    >
+      <View style={[UserFormPartTwoStyles.container, { flex: 1 }]}>
         <Text>ここにHeader</Text>
       </View>
-      <View style={[genderStyles.container, { flex: 2 }]}>
+      <View style={[UserFormPartTwoStyles.container, { flex: 2 }]}>
         {gender.map((gender) => {
           return (
             <RadioButton
@@ -35,7 +38,12 @@ export const GenderSelect: React.FC = ({ navigation }) => {
           );
         })}
       </View>
-      <View style={[genderStyles.container, { flex: 1, flexDirection: 'row' }]}>
+      <View
+        style={[
+          UserFormPartTwoStyles.container,
+          { flex: 1, flexDirection: 'row' },
+        ]}
+      >
         <View
           style={{
             flex: 1,
@@ -44,7 +52,7 @@ export const GenderSelect: React.FC = ({ navigation }) => {
           }}
         >
           <ProcessButton
-            onClick={() => navigation.push('InitializeUserForm')}
+            onClick={() => navigation.goBack()}
             content={'もどる'}
           />
           <ProcessButton
@@ -69,14 +77,14 @@ const RadioButton: React.FC<RadioButtonProps> = ({
       onPress={() => {
         onSelect(gender);
       }}
-      style={genderStyles.option}
+      style={UserFormPartTwoStyles.option}
     >
-      <View style={genderStyles.radioButton}>
+      <View style={UserFormPartTwoStyles.radioButton}>
         {gender === checkedGender && (
-          <View style={genderStyles.isCheckedRadioButon} />
+          <View style={UserFormPartTwoStyles.isCheckedRadioButon} />
         )}
       </View>
-      <Text style={genderStyles.text}>{gender}</Text>
+      <Text style={UserFormPartTwoStyles.text}>{gender}</Text>
     </Pressable>
   );
 };

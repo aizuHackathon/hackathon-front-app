@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { InitializeUserForm } from './src/screens/InitializeUserForm/InitializeUserForm';
-import { GenderSelect } from './src/screens/GenderSelect/GenderSelect';
+import { UserFormPartOne } from './src/screens/UserFormPartOne/UserFormPartOne';
+import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
 
 type RootStackParamList = {
   Home: undefined;
@@ -15,8 +15,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>() as any;
 const App: React.VFC = () => (
   <NavigationContainer>
     <Stack.Navigator initialRouteName='InitializeUserForm'>
-      <Stack.Screen name='InitializeUserForm' component={InitializeUserForm} />
-      <Stack.Screen name='GenderSelect' component={GenderSelect} />
+      <Stack.Screen name='InitializeUserForm' component={UserFormPartOne} />
+      <Stack.Screen name='GenderSelect' component={UserFormPartTwo} />
     </Stack.Navigator>
   </NavigationContainer>
 );
