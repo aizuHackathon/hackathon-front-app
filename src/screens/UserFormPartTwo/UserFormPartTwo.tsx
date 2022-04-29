@@ -57,7 +57,7 @@ export const UserFormPartTwo: React.FC<Navigation> = ({ navigation }) => {
           />
           <ProcessButton
             onClick={() => {
-              console.log('hi');
+              navigation.navigate('MainScreen');
             }}
             content={'かくてい'}
           />
