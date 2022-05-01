@@ -4,6 +4,12 @@ export const MainScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E7C0C0',
+  },
   backgoroundImageConteiner: {
     flex: 1,
     position: 'absolute',
