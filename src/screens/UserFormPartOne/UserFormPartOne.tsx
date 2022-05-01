@@ -82,7 +82,7 @@ export const UserFormPartOne: React.FC<Navigation> = ({ navigation }) => {
           }}
         >
           <ProcessButton
-            onClick={() => navigation.navigate('GenderSelect')}
+            onClick={() => navigation.navigate('UserFormPartTwo')}
             content={'つぎへ'}
           />
         </View>

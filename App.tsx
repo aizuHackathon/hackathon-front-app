@@ -14,9 +14,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>() as any;
 
 const App: React.VFC = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName='InitializeUserForm'>
-      <Stack.Screen name='InitializeUserForm' component={UserFormPartOne} />
-      <Stack.Screen name='GenderSelect' component={UserFormPartTwo} />
+    <Stack.Navigator initialRouteName='UserFormPartOne'>
+      <Stack.Screen name='UserFormPartOne' component={UserFormPartOne} />
+      <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />
     </Stack.Navigator>
   </NavigationContainer>
 );
