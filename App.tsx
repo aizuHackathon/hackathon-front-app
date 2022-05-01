@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DetailsScreen from './src/screens/Details';
-import { GenderSelect } from './src/screens/GenderSelect/GenderSelect';
+import { UserFormPartOne } from './src/screens/UserFormPartOne/UserFormPartOne';
+import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
 
 type RootStackParamList = {
   Home: undefined;
-  Details: undefined;
+  InitializeUserForm: undefined;
 };
 
 // TODO: Stackがコンポーネントとして使えないとerrorが出るので、anyを使わずにできるようにする。
@@ -14,9 +14,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>() as any;
 
 const App: React.VFC = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName='GenderSelect'>
-      <Stack.Screen name='GenderSelect' component={GenderSelect} />
-      <Stack.Screen name='Details' component={DetailsScreen} />
+    <Stack.Navigator initialRouteName='UserFormPartOne'>
+      <Stack.Screen name='UserFormPartOne' component={UserFormPartOne} />
+      <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />
     </Stack.Navigator>
   </NavigationContainer>
 );

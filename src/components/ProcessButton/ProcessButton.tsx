@@ -7,7 +7,11 @@ export const ProcessButton: React.FC<{
   content: string;
 }> = ({ onClick, content }) => {
   return (
-    <TouchableOpacity activeOpacity={0.7} style={buttonStyles.processButton}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={buttonStyles.processButton}
+      onPress={onClick}
+    >
       <Text style={buttonStyles.buttonText}>{content}</Text>
     </TouchableOpacity>
   );
