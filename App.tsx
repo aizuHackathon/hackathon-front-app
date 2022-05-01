@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { UserFormPartOne } from './src/screens/UserFormPartOne/UserFormPartOne';
 import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
+import { MainScreen } from './src/screens/MainScreen/MainScreen';
 
 type RootStackParamList = {
   Home: undefined;
@@ -17,6 +18,7 @@ const App: React.VFC = () => (
     <Stack.Navigator initialRouteName='UserFormPartOne'>
       <Stack.Screen name='UserFormPartOne' component={UserFormPartOne} />
       <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />
+      <Stack.Screen name='MainScreen' component={MainScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 );
