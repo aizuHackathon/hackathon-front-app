@@ -10,6 +10,10 @@ import CharacterOne from '../../../assets/images/character_1.png';
 import CharacterTwo from '../../../assets/images/character_2.png';
 import CharacterOne_2 from '../../../assets/images/character1_2.png';
 import CharacterTwo_2 from '../../../assets/images/character2_2.png';
+import Diet from '../../../assets/images/diet.jpg';
+import Graph1 from '../../../assets/images/graph1.jpg';
+import Graph2 from '../../../assets/images/graph2.jpg';
+import Sports from '../../../assets/images/sport.jpg';
 import { WEATHER_API_KEY } from '@env';
 
 export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
@@ -108,21 +112,39 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
                   style={MainScreenStyles.leftBtn}
                   onPress={() => console.log(1)}
                 >
-                  <Text style={MainScreenStyles.btnText}>1</Text>
+                  <Image
+                    source={{
+                      uri: Image.resolveAssetSource(Diet).uri,
+                    }}
+                    resizeMode='contain'
+                    style={MainScreenStyles.btnText}
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.centerBtn}
                   onPress={() => console.log(2)}
                 >
-                  <Text style={MainScreenStyles.btnText}>2</Text>
+                  <Image
+                    source={{
+                      uri: Image.resolveAssetSource(Graph1).uri,
+                    }}
+                    resizeMode='contain'
+                    style={MainScreenStyles.btnText}
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.rightBtn}
                   onPress={() => console.log(3)}
                 >
-                  <Text style={MainScreenStyles.btnText}>3</Text>
+                  <Image
+                    source={{
+                      uri: Image.resolveAssetSource(Sports).uri,
+                    }}
+                    resizeMode='contain'
+                    style={MainScreenStyles.btnText}
+                  />
                 </TouchableOpacity>
               </View>
             </View>

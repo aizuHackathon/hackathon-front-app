@@ -103,7 +103,7 @@ export const MainScreenStyles = StyleSheet.create({
   },
   btnText: {
     textAlign: 'center',
-    paddingVertical: 16,
+    paddingVertical: 30,
     fontSize: 14,
   },
 });
