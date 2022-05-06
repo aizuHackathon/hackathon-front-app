@@ -44,8 +44,9 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
         return response.json();
       })
       .then((data) => {
-        const weatherMain: keyof BGUriArray = data.weather[0].main;
-        if (BGImageUriArray[weatherMain] !== undefined) setWeather(weatherMain);
+        if (BGImageUriArray[data.weather[0].main] !== undefined) {
+          setWeather(data.weather[0].main);
+        }
         setIsLoading(false);
       })
       .catch(() => console.log('error'));
