@@ -12,18 +12,17 @@ import CharacterOne_2 from '../../../assets/images/character1_2.png';
 import CharacterTwo_2 from '../../../assets/images/character2_2.png';
 import Diet from '../../../assets/images/diet.jpg';
 import Graph1 from '../../../assets/images/graph1.jpg';
-import Graph2 from '../../../assets/images/graph2.jpg';
 import Sports from '../../../assets/images/sport.jpg';
 import { WEATHER_API_KEY } from '@env';
 
 export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
-  type BGUriArray = {
+  type BGImageUriObjectType = {
     Rain: string;
     Clouds: string;
     Clear: string;
   };
 
-  const BGImageUriArray: BGUriArray = {
+  const BGImageUriObject: BGImageUriObjectType = {
     Rain: Image.resolveAssetSource(rainyImage).uri,
     Clouds: Image.resolveAssetSource(cloudImage).uri,
     Clear: Image.resolveAssetSource(sunnyImage).uri,
@@ -38,7 +37,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [cityName, setCityName] = useState('tokyo');
-  const [weather, setWeather] = useState<keyof BGUriArray>('Clear');
+  const [weather, setWeather] = useState('Clear');
 
   // 天気のAPIから現在の天気を取得する関数
   const getWeatherInfo = async () => {
@@ -48,12 +47,12 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
         return response.json();
       })
       .then((data) => {
-        if (BGImageUriArray[data.weather[0].main] !== undefined) {
+        if (BGImageUriObject[data.weather[0].main] !== undefined) {
           setWeather(data.weather[0].main);
         }
         setIsLoading(false);
       })
-      .catch(() => console.log('error'));
+      .catch((error) => console.error('通信に失敗しました', error));
   };
 
   useEffect(() => {
@@ -68,7 +67,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
         <View>
           <View style={MainScreenStyles.backgoroundImageConteiner}>
             <Image
-              source={{ uri: BGImageUriArray[weather] }}
+              source={{ uri: BGImageUriObject[weather] }}
               resizeMode='cover'
               style={MainScreenStyles.backgroundImage}
             />
