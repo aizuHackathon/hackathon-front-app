@@ -10,13 +10,23 @@ import CharacterOne from '../../../assets/images/character_1.png';
 import CharacterTwo from '../../../assets/images/character_2.png';
 import CharacterOne_2 from '../../../assets/images/character1_2.png';
 import CharacterTwo_2 from '../../../assets/images/character2_2.png';
+import Diet from '../../../assets/images/diet.jpg';
+import Graph1 from '../../../assets/images/graph1.jpg';
+import Sports from '../../../assets/images/sport.jpg';
+import { WEATHER_API_KEY } from '@env';
 
 export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
-  const BGImageUriArray = [
-    Image.resolveAssetSource(rainyImage).uri,
-    Image.resolveAssetSource(cloudImage).uri,
-    Image.resolveAssetSource(sunnyImage).uri,
-  ];
+  type BGImageUriObjectType = {
+    Rain: string;
+    Clouds: string;
+    Clear: string;
+  };
+
+  const BGImageUriObject: BGImageUriObjectType = {
+    Rain: Image.resolveAssetSource(rainyImage).uri,
+    Clouds: Image.resolveAssetSource(cloudImage).uri,
+    Clear: Image.resolveAssetSource(sunnyImage).uri,
+  };
 
   const CImageUriArray = [
     Image.resolveAssetSource(CharacterOne).uri,
@@ -26,9 +36,27 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   ];
 
   const [isLoading, setIsLoading] = useState(true);
+  const [cityName, setCityName] = useState('tokyo');
+  const [weather, setWeather] = useState('Clear');
+
+  // 天気のAPIから現在の天気を取得する関数
+  const getWeatherInfo = async () => {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${WEATHER_API_KEY}`;
+    await fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (BGImageUriObject[data.weather[0].main] !== undefined) {
+          setWeather(data.weather[0].main);
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => console.error('通信に失敗しました', error));
+  };
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 7000);
+    getWeatherInfo();
   }, []);
 
   return (
@@ -39,7 +67,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
         <View>
           <View style={MainScreenStyles.backgoroundImageConteiner}>
             <Image
-              source={{ uri: BGImageUriArray[Math.floor(Math.random() * 3)] }}
+              source={{ uri: BGImageUriObject[weather] }}
               resizeMode='cover'
               style={MainScreenStyles.backgroundImage}
             />
@@ -83,21 +111,39 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
                   style={MainScreenStyles.leftBtn}
                   onPress={() => console.log(1)}
                 >
-                  <Text style={MainScreenStyles.btnText}>1</Text>
+                  <Image
+                    source={{
+                      uri: Image.resolveAssetSource(Diet).uri,
+                    }}
+                    resizeMode='contain'
+                    style={MainScreenStyles.btnText}
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.centerBtn}
                   onPress={() => console.log(2)}
                 >
-                  <Text style={MainScreenStyles.btnText}>2</Text>
+                  <Image
+                    source={{
+                      uri: Image.resolveAssetSource(Graph1).uri,
+                    }}
+                    resizeMode='contain'
+                    style={MainScreenStyles.btnText}
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.rightBtn}
                   onPress={() => console.log(3)}
                 >
-                  <Text style={MainScreenStyles.btnText}>3</Text>
+                  <Image
+                    source={{
+                      uri: Image.resolveAssetSource(Sports).uri,
+                    }}
+                    resizeMode='contain'
+                    style={MainScreenStyles.btnText}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
