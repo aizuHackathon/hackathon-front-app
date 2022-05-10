@@ -38,6 +38,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [cityName, setCityName] = useState('tokyo');
   const [weather, setWeather] = useState('Clear');
+  const [characterWord, setCharacterWord] = useState(10000000000);
 
   // 天気のAPIから現在の天気を取得する関数
   const getWeatherInfo = async () => {
@@ -57,6 +58,12 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
 
   useEffect(() => {
     getWeatherInfo();
+
+    const updateWordsBy3s = setInterval(() => {
+      setCharacterWord(Math.floor(Math.random() * 10000000000));
+    }, 3000);
+
+    return () => clearInterval(intervalRef.current);
   }, []);
 
   return (
@@ -65,6 +72,10 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
         <Loading />
       ) : (
         <View>
+          {/*
+            背景レイヤー
+            z-index : -1
+          */}
           <View style={MainScreenStyles.backgoroundImageConteiner}>
             <Image
               source={{ uri: BGImageUriObject[weather] }}
@@ -73,14 +84,31 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
             />
           </View>
 
+          {/*
+            キャラクターレイヤー
+            z-index : 0
+          */}
           <View style={MainScreenStyles.characterImageContainer}>
+            <View style={MainScreenStyles.rectangle}>
+              <Text style={MainScreenStyles.hukidashiInnerText}>
+                {characterWord}
+              </Text>
+            </View>
+            <View style={MainScreenStyles.triangle} />
+            {/* ? 三角形の要素 */}
             <Image
-              source={{ uri: CImageUriArray[Math.floor(Math.random() * 2)] }}
+              // ↓ランダムの場合
+              // source={{ uri: CImageUriArray[Math.floor(Math.random() * 2)] }}
+              source={{ uri: CImageUriArray[0] }}
               resizeMode='contain'
               style={MainScreenStyles.characterImage}
             />
           </View>
 
+          {/*
+            ボタン群レイヤー
+            z-index : 1
+          */}
           <View style={MainScreenStyles.TopLevelContainer}>
             <View style={MainScreenStyles.HeaderBtnGroup}>
               <View style={MainScreenStyles.HeaderBtn}>
