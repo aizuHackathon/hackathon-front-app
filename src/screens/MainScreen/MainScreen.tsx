@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Navigation } from '../screan';
 import { MainScreenStyles } from './MainScreenStyle';
 import { Loading } from '../../components/Loading/Loading';
+import FadeInOut from 'react-native-fade-in-out';
 import rainyImage from '../../../assets/images/rainy.jpg';
 import cloudImage from '../../../assets/images/cloudy.jpg';
 import sunnyImage from '../../../assets/images/sunny.jpg';
@@ -38,6 +39,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [cityName, setCityName] = useState('tokyo');
   const [weather, setWeather] = useState('Clear');
+  const [isTimeout, setIsTimeout] = useState(false);
   const [characterWord, setCharacterWord] = useState(10000000000);
 
   // 天気のAPIから現在の天気を取得する関数
@@ -60,11 +62,14 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
     getWeatherInfo();
 
     const updateWordsBy3s = setInterval(() => {
-      setCharacterWord(Math.floor(Math.random() * 10000000000));
-    }, 3000);
+      setIsTimeout(!isTimeout);
+      if (!isTimeout) setCharacterWord(Math.floor(Math.random() * 10000000000));
+    }, 5000);
 
-    return () => clearInterval(intervalRef.current);
-  }, []);
+    return () => {
+      clearInterval(updateWordsBy3s);
+    };
+  }, [isTimeout]);
 
   return (
     <View style={MainScreenStyles.container}>
@@ -89,13 +94,15 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
             z-index : 0
           */}
           <View style={MainScreenStyles.characterImageContainer}>
-            <View style={MainScreenStyles.rectangle}>
-              <Text style={MainScreenStyles.hukidashiInnerText}>
-                {characterWord}
-              </Text>
-            </View>
-            <View style={MainScreenStyles.triangle} />
-            {/* ? 三角形の要素 */}
+            <FadeInOut visible={isTimeout} scale={true}>
+              <View style={MainScreenStyles.rectangle}>
+                <Text style={MainScreenStyles.hukidashiInnerText}>
+                  {characterWord}
+                </Text>
+              </View>
+              <View style={MainScreenStyles.triangle} />
+            </FadeInOut>
+
             <Image
               // ↓ランダムの場合
               // source={{ uri: CImageUriArray[Math.floor(Math.random() * 2)] }}
