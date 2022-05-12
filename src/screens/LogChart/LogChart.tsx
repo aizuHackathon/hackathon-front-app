@@ -1,5 +1,6 @@
-import React, { useEffect, useState, Component } from 'react';
-import { View, Picker, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, Dimensions } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import {
   LineChart,
   BarChart,
