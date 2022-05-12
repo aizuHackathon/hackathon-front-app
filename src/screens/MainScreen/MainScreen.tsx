@@ -157,7 +157,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.centerBtn}
-                  onPress={() => console.log(2)}
+                  onPress={() => navigation.navigate('LogChart')}
                 >
                   <Image
                     source={{
