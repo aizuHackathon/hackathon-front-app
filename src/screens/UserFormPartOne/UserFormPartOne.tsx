@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { UserFormPartOneStyles } from './UserFormPartOneStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
+import { Audio } from 'expo-av';
+import { Sound } from 'expo-av/build/Audio';
+import Morning from '../../../assets/sounds/morning.mp3';
+import Lunch from '../../../assets/sounds/lunch.mp3';
+import Night from '../../../assets/sounds/night.mp3';
 
 enum UserInfo {
   Name = 'おなまえ',
@@ -45,6 +50,22 @@ export const UserFormPartOne: React.FC<Navigation> = ({ navigation }) => {
       value: age,
     },
   ];
+
+  const [sound, setSound] = React.useState<Sound>();
+
+  const playSound = async () => {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(Morning);
+    setSound(sound);
+
+    console.log('Playing Sound');
+    await sound.playAsync();
+    await sound.setIsLoopingAsync(true);
+  };
+
+  useEffect(() => {
+    playSound();
+  }, []);
 
   return (
     <View

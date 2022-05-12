@@ -14,9 +14,6 @@ import Diet from '../../../assets/images/diet.jpg';
 import Graph1 from '../../../assets/images/graph1.jpg';
 import Sports from '../../../assets/images/sport.jpg';
 import { WEATHER_API_KEY } from '@env';
-import useSound from 'use-sound';
-// import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
-import Sound from '~/assets/sounds/morning.mp3';
 
 export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   type BGImageUriObjectType = {
@@ -61,17 +58,6 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   useEffect(() => {
     getWeatherInfo();
   }, []);
-
-  // BGM
-  const [play] = useSound(Sound, { volume: 1 });
-  useEffect(() => {
-    play();
-  }, []);
-  // const BoopButton = () => {
-  //   const [play] = useSound('~/assets/sounds/morning.mp3');
-  //   play();
-  //   // return <Button onClick={play}>Boop!</Button>;
-  // };
 
   return (
     <View style={MainScreenStyles.container}>
