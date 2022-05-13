@@ -8,7 +8,12 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { buttonStyles } from '../../components/ProcessButton/ProcessButtonStyles';
 
 export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
-  const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
+  const caloryOfMeal = {
+    ごはん: 100,
+    パン: 200,
+    めん: 300,
+  };
+  const [selectedCalory, setSelectedCalory] = useState<string>();
 
   return (
     <View
@@ -23,42 +28,44 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
 
       <View style={[MealRegisterScreenStyles.container, { flex: 2 }]}>
         <Text style={MealRegisterScreenStyles.text}>しゅるい</Text>
-        <SelectDropdown
-          data={countries}
-          buttonStyle={MealRegisterScreenStyles.form}
-          buttonTextStyle={MealRegisterScreenStyles.buttonText}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+        <View
+          style={{
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            borderRadius: 10,
           }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            // text represented after item is selected
-            // if data array is an array of objects then return selectedItem.property to render after item is selected
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            // text represented for each item in dropdown
-            // if data array is an array of objects then return item.property to represent item in dropdown
-            return item;
-          }}
-        />
-        <Text style={MealRegisterScreenStyles.text}>ないよう</Text>
-        <SelectDropdown
-          data={countries}
-          buttonStyle={MealRegisterScreenStyles.form}
-          buttonTextStyle={MealRegisterScreenStyles.buttonText}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            // text represented after item is selected
-            // if data array is an array of objects then return selectedItem.property to render after item is selected
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            // text represented for each item in dropdown
-            // if data array is an array of objects then return item.property to represent item in dropdown
-            return item;
-          }}
+        >
+          <SelectDropdown
+            data={Object.keys(caloryOfMeal)}
+            defaultButtonText={'しょくじのしゅるいをえらぶ'}
+            buttonStyle={MealRegisterScreenStyles.form}
+            buttonTextStyle={MealRegisterScreenStyles.buttonText}
+            dropdownIconPosition={'right'}
+            onSelect={(selectedItem: string) => {
+              setSelectedCalory(caloryOfMeal[selectedItem]);
+            }}
+            buttonTextAfterSelection={(selectedItem) => {
+              // text represented after item is selected
+              // if data array is an array of objects then return selectedItem.property to render after item is selected
+              return selectedItem;
+            }}
+            rowTextForSelection={(item) => {
+              // text represented for each item in dropdown
+              // if data array is an array of objects then return item.property to represent item in dropdown
+              return item;
+            }}
+          />
+        </View>
+
+        <Text style={MealRegisterScreenStyles.text}>くわしく</Text>
+        <TextInput
+          onChangeText={setSelectedCalory}
+          style={MealRegisterScreenStyles.form}
         />
       </View>
       <View style={MealRegisterScreenStyles.MealRegisterFooterContainer}>
@@ -78,6 +85,7 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
           <ProcessButton
             onClick={() => {
               // if(validete()) navigation.navigate('MainScreen');
+              console.log(selectedCalory);
               navigation.navigate('MainScreen');
             }}
             content={'かくてい'}

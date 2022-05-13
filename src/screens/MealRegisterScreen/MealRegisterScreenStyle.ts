@@ -13,7 +13,9 @@ export const MealRegisterScreenStyles = StyleSheet.create({
   },
   MealRegisterFooterContainer: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     color: 'white',
@@ -23,12 +25,8 @@ export const MealRegisterScreenStyles = StyleSheet.create({
   buttonText: {
     color: 'black',
     fontSize: 12,
-    fontWeight: '700',
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
     padding: 10,
     width: 232,
     height: 35,
