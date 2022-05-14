@@ -130,8 +130,7 @@ export const MainScreenStyles = StyleSheet.create({
     backgroundColor: 'white',
   },
   btnText: {
-    textAlign: 'center',
+    alignItems: 'center',
     paddingVertical: 30,
-    fontSize: 14,
   },
 });
