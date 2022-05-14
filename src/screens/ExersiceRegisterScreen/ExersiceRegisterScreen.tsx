@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Pressable, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { ExersiceRegisterScreenStyles } from './ExersiceRegisterScreenStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
