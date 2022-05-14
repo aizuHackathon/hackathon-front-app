@@ -135,7 +135,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.rightBtn}
-                  onPress={() => console.log(3)}
+                  onPress={() => navigation.navigate('ExersiceRegisterScreen')}
                 >
                   <Image
                     source={{
