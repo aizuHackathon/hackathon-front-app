@@ -48,31 +48,58 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
       createdAt: new Date('December 29, 2022 03:23:10'),
     },
   ];
-  const apiDataOther: Array<ApiDataOther> = [
+  const apiDataExercise: Array<ApiDataOther> = [
     {
-      calory: 213,
+      calory: 43,
       caloryType: 1,
       createdAt: new Date('December 10, 2022 03:20:00'),
     },
     {
+      calory: 54,
+      caloryType: 2,
+      createdAt: new Date('December 11 2022 04:20:02'),
+    },
+    {
+      calory: 31,
+      caloryType: 3,
+      createdAt: new Date('December 13, 2022 01:20:00'),
+    },
+    {
+      calory: 71,
+      caloryType: 1,
+      createdAt: new Date('December 21, 2022 14:20:20'),
+    },
+    {
+      calory: 44,
+      caloryType: 1,
+      createdAt: new Date('December 29, 2022 03:23:10'),
+    },
+  ];
+  const apiDataMeal: Array<ApiDataOther> = [
+    {
+      calory: 213,
+      caloryType: 1,
+      createdAt: new Date('December 10, 2022 20:20:00'),
+    },
+    {
       calory: 302,
       caloryType: 2,
-      createdAt: new Date('December 10 2022 04:20:02'),
+      createdAt: new Date('December 10 2022 13:20:02'),
     },
     {
       calory: 412,
       caloryType: 3,
-      createdAt: new Date('December 10, 2022 01:20:00'),
+      createdAt: new Date('December 10, 2022 07:20:00'),
     },
     {
       calory: 176,
       caloryType: 1,
-      createdAt: new Date('December 30, 2022 14:20:20'),
+      createdAt: new Date('December 11, 2022 12:20:20'),
     },
     {
       calory: 213,
       caloryType: 1,
-      createdAt: new Date('December 29, 2022 03:23:10'),
+      createdAt: new Date('December 11, 2022 18:23:10'),
     },
   ];
 
@@ -80,7 +107,14 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
     (a: ApiDataWeight, b: ApiDataWeight) =>
       a.createdAt.getTime() - b.createdAt.getTime(),
   );
-  //const sortedApiDataOther = apiDataOther.sort((a: ApiDataOther, b: ApiDataOther) => a.createdAt.getTime() - b.createdAt.getTime());
+  const sortedApiDataExercise = apiDataExercise.sort(
+    (a: ApiDataOther, b: ApiDataOther) =>
+      a.createdAt.getTime() - b.createdAt.getTime(),
+  );
+  const sortedApiDataMeal = apiDataMeal.sort(
+    (a: ApiDataOther, b: ApiDataOther) =>
+      a.createdAt.getTime() - b.createdAt.getTime(),
+  );
   const between =
     sortedApiDataWeight[sortedApiDataWeight.length - 1].createdAt.getTime() -
     sortedApiDataWeight[0].createdAt.getTime();
@@ -93,50 +127,64 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
   }
 
   const weight: number[] = new Array(apiDataWeight.length);
-  const date: string[] = new Array(apiDataWeight.length);
+  const dateWeight: string[] = new Array(apiDataWeight.length);
+  const caloryExcercise: number[] = new Array(apiDataExercise.length);
+  const dateExercise: string[] = new Array(apiDataExercise.length);
+  const caloryMeal: number[] = new Array(apiDataMeal.length);
+  const dateMeal: string[] = new Array(apiDataMeal.length);
+
   for (let i = 0; i < apiDataWeight.length; i++) {
     weight[i] = apiDataWeight[i].weight;
     if (judge === 1) {
-      date[i] =
-        apiDataWeight[i].createdAt.getHours() +
+      dateWeight[i] =
+        sortedApiDataWeight[i].createdAt.getHours() +
         'h' +
-        apiDataWeight[i].createdAt.getMinutes() +
+        sortedApiDataWeight[i].createdAt.getMinutes() +
         'm';
     } else {
-      date[i] =
-        apiDataWeight[i].createdAt.getMonth() +
+      dateWeight[i] =
+        sortedApiDataWeight[i].createdAt.getMonth() +
         1 +
         '/' +
-        apiDataWeight[i].createdAt.getDate();
+        sortedApiDataWeight[i].createdAt.getDate();
     }
+  }
+
+  for (let i = 0; i < apiDataExercise.length; i++) {
+    caloryExcercise[i] = sortedApiDataExercise[i].calory;
+    dateExercise[i] =
+      sortedApiDataExercise[i].createdAt.getMonth() +
+      1 +
+      '/' +
+      sortedApiDataExercise[i].createdAt.getDate();
+
+    caloryMeal[i] = sortedApiDataMeal[i].calory;
+    dateMeal[i] =
+      sortedApiDataMeal[i].createdAt.getMonth() +
+      1 +
+      '/' +
+      sortedApiDataMeal[i].createdAt.getDate();
   }
 
   const sampleData = {
     exercise: {
-      labels: ['AAA', 'BBB', 'CCC'],
+      labels: dateExercise,
       datasets: [
         {
-          data: [Math.random() * 100, Math.random() * 100, Math.random() * 100],
+          data: caloryExcercise,
         },
       ],
     },
     meal: {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+      labels: dateMeal,
       datasets: [
         {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-          ],
+          data: caloryMeal,
         },
       ],
     },
     weight: {
-      labels: date,
+      labels: dateWeight,
       datasets: [
         {
           data: weight,
@@ -165,14 +213,15 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
           data={sampleData[selectedValue]}
           width={Dimensions.get('window').width - 20} // from react-native
           height={220}
-          // yAxisSuffix='k'
-          yAxisSuffix={selectedValue === 'weight' ? 'kg' : 'k'}
+          yAxisSuffix={selectedValue === 'weight' ? 'kg' : 'kcal'}
           yAxisInterval={1} // optional, defaults to 1
+          segments={5}
+          yLabelsOffset={selectedValue === 'weight' ? 10 : 7}
           chartConfig={{
             backgroundColor: '#E7C0C0',
             backgroundGradientFrom: '#bfa2a2',
             backgroundGradientTo: '#bfa2a2',
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 0.3) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 0.3) => `rgba(255, 255, 255, ${opacity})`,
             style: {
