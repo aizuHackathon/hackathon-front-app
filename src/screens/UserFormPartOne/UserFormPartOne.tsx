@@ -5,7 +5,8 @@ import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
 
 enum UserInfo {
-  Name = 'おなまえ',
+  Name = 'にっくねーむ',
+  Password = 'ぱすわーど',
   Height = 'しんちょう',
   Weight = 'たいじゅう',
   Age = 'ねんれい',
@@ -26,6 +27,11 @@ export const UserFormPartOne: React.FC<Navigation> = ({ navigation }) => {
   const initializeForm: Array<InitializeForm> = [
     {
       formTitle: UserInfo.Name,
+      onChangeMethod: setName,
+      value: name,
+    },
+    {
+      formTitle: UserInfo.Password,
       onChangeMethod: setName,
       value: name,
     },
@@ -57,7 +63,7 @@ export const UserFormPartOne: React.FC<Navigation> = ({ navigation }) => {
         <Text>Header</Text>
       </View>
 
-      <View style={[UserFormPartOneStyles.container, { flex: 2 }]}>
+      <View style={[UserFormPartOneStyles.container, { flex: 3 }]}>
         {initializeForm.map((object) => {
           return (
             <View
