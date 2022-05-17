@@ -4,10 +4,8 @@ import { UserFormPartOneStyles } from './UserFormPartOneStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
 import { Audio } from 'expo-av';
-import { Sound } from 'expo-av/build/Audio';
+// @ts-expect-error mp3ファイルを読み込めないと言われてしまう
 import Morning from '../../../assets/sounds/morning.mp3';
-import Lunch from '../../../assets/sounds/lunch.mp3';
-import Night from '../../../assets/sounds/night.mp3';
 
 enum UserInfo {
   Name = 'おなまえ',
@@ -51,14 +49,8 @@ export const UserFormPartOne: React.FC<Navigation> = ({ navigation }) => {
     },
   ];
 
-  const [sound, setSound] = React.useState<Sound>();
-
   const playSound = async () => {
-    console.log('Loading Sound');
     const { sound } = await Audio.Sound.createAsync(Morning);
-    setSound(sound);
-
-    console.log('Playing Sound');
     await sound.playAsync();
     await sound.setIsLoopingAsync(true);
   };
