@@ -15,7 +15,6 @@ export const buttonStyles = StyleSheet.create({
     shadowRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-end',
   },
   buttonText: {
     fontSize: 14,
