@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import { View, Dimensions } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from 'react-native-chart-kit';
+import { LineChart } from 'react-native-chart-kit';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { LogChartStyles } from './LosChartStyle';
 import { Navigation } from '../screan';
-import { int32ARGBColor } from 'react-native-svg';
 
 export const LogChart: React.FC<Navigation> = ({ navigation }) => {
-  const [selectedValue, setSelectedValue] = useState<string>('exercise');
+  const [selectedValue, setSelectedValue] = useState('exercise');
 
   type ApiDataWeight = {
     weight: number;
@@ -126,12 +118,12 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
     judge = 2;
   }
 
-  const weight: number[] = new Array(apiDataWeight.length);
-  const dateWeight: string[] = new Array(apiDataWeight.length);
-  const caloryExcercise: number[] = new Array(apiDataExercise.length);
-  const dateExercise: string[] = new Array(apiDataExercise.length);
-  const caloryMeal: number[] = new Array(apiDataMeal.length);
-  const dateMeal: string[] = new Array(apiDataMeal.length);
+  const weight = new Array(apiDataWeight.length);
+  const dateWeight = new Array(apiDataWeight.length);
+  const caloryExcercise = new Array(apiDataExercise.length);
+  const dateExercise = new Array(apiDataExercise.length);
+  const caloryMeal = new Array(apiDataMeal.length);
+  const dateMeal = new Array(apiDataMeal.length);
 
   for (let i = 0; i < apiDataWeight.length; i++) {
     weight[i] = apiDataWeight[i].weight;
@@ -199,9 +191,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
         <Picker
           selectedValue={selectedValue}
           style={{ height: 50, width: 150 }}
-          onValueChange={(itemValue: string, itemIndex: number) =>
-            setSelectedValue(itemValue)
-          }
+          onValueChange={(itemValue: string) => setSelectedValue(itemValue)}
         >
           <Picker.Item label='運動' value='exercise' />
           <Picker.Item label='食事' value='meal' />
@@ -210,6 +200,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
       </View>
       <View style={LogChartStyles.LogChartContainer}>
         <LineChart
+          // @ts-expect-error この書き方は良くないがsampleなので許容する、本番はtserrorが出ないようにお願いします
           data={sampleData[selectedValue]}
           width={Dimensions.get('window').width - 20} // from react-native
           height={220}
