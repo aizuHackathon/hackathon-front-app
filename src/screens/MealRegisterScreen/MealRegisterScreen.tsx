@@ -3,9 +3,7 @@ import { Text, View, TextInput } from 'react-native';
 import { MealRegisterScreenStyles } from './MealRegisterScreenStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
-import { Picker } from '@react-native-picker/picker';
 import SelectDropdown from 'react-native-select-dropdown';
-import { buttonStyles } from '../../components/ProcessButton/ProcessButtonStyles';
 
 export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
   const caloryOfMeal = {
@@ -13,7 +11,7 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
     パン: 200,
     めん: 300,
   };
-  const [selectedCalory, setSelectedCalory] = useState<string>();
+  const [selectedCalory, setSelectedCalory] = useState();
 
   return (
     <View
@@ -46,7 +44,7 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
             buttonStyle={MealRegisterScreenStyles.form}
             buttonTextStyle={MealRegisterScreenStyles.buttonText}
             dropdownIconPosition={'right'}
-            onSelect={(selectedItem: string) => {
+            onSelect={(selectedItem: keyof typeof caloryOfMeal) => {
               setSelectedCalory(caloryOfMeal[selectedItem]);
             }}
             buttonTextAfterSelection={(selectedItem) => {
