@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { UserFormPartOneStyles } from './UserFormPartOneStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
+import { Audio } from 'expo-av';
+// @ts-expect-error mp3ファイルを読み込めないと言われてしまう
+import Morning from '../../../assets/sounds/morning.mp3';
 
 enum UserInfo {
   Name = 'おなまえ',
@@ -45,6 +48,16 @@ export const UserFormPartOne: React.FC<Navigation> = ({ navigation }) => {
       value: age,
     },
   ];
+
+  const playSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(Morning);
+    await sound.playAsync();
+    await sound.setIsLoopingAsync(true);
+  };
+
+  useEffect(() => {
+    playSound();
+  }, []);
 
   return (
     <View
