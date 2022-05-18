@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Dimensions } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { LineChart } from 'react-native-chart-kit';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { LogChartStyles } from './LosChartStyle';
 import { Navigation } from '../screan';
+import { BACKEND_API_URI } from '@env';
 
 export const LogChart: React.FC<Navigation> = ({ navigation }) => {
   const [selectedValue, setSelectedValue] = useState('exercise');
@@ -18,6 +19,16 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
     caloryType: number;
     createdAt: Date;
   };
+  const getWeights = async () => {
+    const url = `${BACKEND_API_URI}/weight?id=2`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((e) => console.error(e));
+  };
+  useEffect(() => {
+    getWeights();
+  });
   const apiDataWeight: Array<ApiDataWeight> = [
     {
       weight: 64.1,
