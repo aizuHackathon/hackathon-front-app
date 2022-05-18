@@ -5,6 +5,7 @@ import { UserFormPartOne } from './src/screens/UserFormPartOne/UserFormPartOne';
 import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
 import { MainScreen } from './src/screens/MainScreen/MainScreen';
 import { ExersiceRegisterScreen } from './src/screens/ExersiceRegisterScreen/ExersiceRegisterScreen';
+import { WeightRegisterScreen } from './src/screens/ExersiceRegisterScreen/WeightRegisterScreen';
 
 type RootStackParamList = {
   Home: undefined;
@@ -23,6 +24,10 @@ const App: React.VFC = () => (
       <Stack.Screen
         name='ExersiceRegisterScreen'
         component={ExersiceRegisterScreen}
+      />
+      <Stack.Screen
+        name='WeightRegisterScreen'
+        component={WeightRegisterScreen}
       />
     </Stack.Navigator>
   </NavigationContainer>
