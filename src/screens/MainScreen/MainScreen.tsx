@@ -132,7 +132,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.settingBtn}
-                  onPress={() => console.log('#')}
+                  onPress={() => navigation.navigate('Evolution')}
                 >
                   <Text style={MainScreenStyles.settingBtnText}>#</Text>
                 </TouchableOpacity>
