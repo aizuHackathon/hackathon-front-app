@@ -13,8 +13,8 @@ export const ExersiceRegisterScreen: React.FC<Navigation> = ({
     let interval;
     if (running) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
+        setTime((prevTime) => prevTime + 1000);
+      }, 1000);
     } else if (!running) {
       clearInterval(interval);
     }
@@ -74,7 +74,7 @@ export const ExersiceRegisterScreen: React.FC<Navigation> = ({
           <ProcessButton
             onClick={() => {
               // if(validete()) navigation.navigate('MainScreen');
-              navigation.navigate('WeightRegisterScreen');
+              navigation.navigate('WeightRegisterScreen', { time: time });
             }}
             content={'かくてい'}
           />

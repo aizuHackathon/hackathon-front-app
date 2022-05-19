@@ -10,6 +10,7 @@ export const WeightRegisterScreenStyles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontWeight: '700',
+    textAlign: 'center',
   },
   buttonText: {
     color: 'black',

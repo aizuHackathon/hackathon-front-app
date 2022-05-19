@@ -7,13 +7,29 @@ import { MainScreen } from './src/screens/MainScreen/MainScreen';
 import { ExersiceRegisterScreen } from './src/screens/ExersiceRegisterScreen/ExersiceRegisterScreen';
 import { WeightRegisterScreen } from './src/screens/ExersiceRegisterScreen/WeightRegisterScreen';
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Home: undefined;
   InitializeUserForm: undefined;
+  ExersiceRegisterScreen: { time: number };
 };
 
 // TODO: Stackがコンポーネントとして使えないとerrorが出るので、anyを使わずにできるようにする。
 const Stack = createNativeStackNavigator<RootStackParamList>() as any;
+const Tab = createNativeStackNavigator<RootStackParamList>() as any;
+const Exersice: React.VFC = () => {
+  return (
+    <Tab.Navigator initialRouteName='ExersiceRegisterScreen'>
+      <Tab.Screen
+        name='ExersiceRegisterScreen'
+        component={ExersiceRegisterScreen}
+      />
+      <Tab.Screen
+        name='WeightRegisterScreen'
+        component={WeightRegisterScreen}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const App: React.VFC = () => (
   <NavigationContainer>
@@ -23,11 +39,8 @@ const App: React.VFC = () => (
       <Stack.Screen name='MainScreen' component={MainScreen} />
       <Stack.Screen
         name='ExersiceRegisterScreen'
-        component={ExersiceRegisterScreen}
-      />
-      <Stack.Screen
-        name='WeightRegisterScreen'
-        component={WeightRegisterScreen}
+        component={Exersice}
+        options={{ headerShown: false }} // 最終的すべてのスクリーンにこれを適用する
       />
     </Stack.Navigator>
   </NavigationContainer>
