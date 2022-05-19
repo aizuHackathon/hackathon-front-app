@@ -80,7 +80,7 @@ export const Evolution: React.FC<Navigation> = ({ navigation }) => {
     <View style={EvolutionStyles.container}>
       <View style={EvolutionStyles.backgoroundImageConteiner}>
         <Image
-          source={{ uri: BGImageUriObject[0] }}
+          source={{ uri: BGImageUriObject[imageIndex] }}
           resizeMode='cover'
           style={EvolutionStyles.backgroundImage}
         />
