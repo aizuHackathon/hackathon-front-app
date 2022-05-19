@@ -18,11 +18,27 @@ const Stack = createNativeStackNavigator<RootStackParamList>() as any;
 const App: React.VFC = () => (
   <NavigationContainer>
     <Stack.Navigator initialRouteName='UserFormPartOne'>
-      <Stack.Screen name='UserFormPartOne' component={UserFormPartOne} />
-      <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />
-      <Stack.Screen name='MainScreen' component={MainScreen} />
+      <Stack.Screen
+        name='UserFormPartOne'
+        component={UserFormPartOne}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='UserFormPartTwo'
+        component={UserFormPartTwo}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='MainScreen'
+        component={MainScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name='LogChart' component={LogChart} />
-      <Stack.Screen name='Evolution' component={Evolution} />
+      <Stack.Screen
+        name='Evolution'
+        component={Evolution}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 );

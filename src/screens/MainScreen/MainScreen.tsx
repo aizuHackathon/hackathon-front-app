@@ -118,25 +118,21 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
           */}
           <View style={MainScreenStyles.TopLevelContainer}>
             <View style={MainScreenStyles.HeaderBtnGroup}>
-              <View style={MainScreenStyles.HeaderBtn}>
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={MainScreenStyles.settingBtn}
-                  onPress={() => console.log('?')}
-                >
-                  <Text style={MainScreenStyles.settingBtnText}>?</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={MainScreenStyles.HeaderBtn}
+                onPress={() => console.log('?')}
+              >
+                <Text style={MainScreenStyles.settingBtnText}>?</Text>
+              </TouchableOpacity>
 
-              <View style={MainScreenStyles.HeaderBtn}>
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={MainScreenStyles.settingBtn}
-                  onPress={() => navigation.navigate('Evolution')}
-                >
-                  <Text style={MainScreenStyles.settingBtnText}>#</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={MainScreenStyles.HeaderBtn}
+                onPress={() => navigation.navigate('Evolution')}
+              >
+                <Text style={MainScreenStyles.settingBtnText}>#</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={MainScreenStyles.BottomBtnGroup}>
