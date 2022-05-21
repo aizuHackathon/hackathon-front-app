@@ -39,6 +39,18 @@ const App: React.FC = () => {
             component={MainScreen}
             options={{ headerShown: false }}
           />
+
+          <Stack.Screen
+            name='MealRegisterScreen'
+            component={MealRegisterScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name='LogChart'
+            component={LogChart}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </userIdContext.Provider>
