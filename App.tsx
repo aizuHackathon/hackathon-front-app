@@ -32,7 +32,11 @@ const App: React.FC = () => {
             options={{ headerShown: false }}
           />
 
-          <Stack.Screen name='MainScreen' component={MainScreen} />
+          <Stack.Screen
+            name='MainScreen'
+            component={MainScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </userIdContext.Provider>

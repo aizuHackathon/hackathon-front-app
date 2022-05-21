@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { UserFormPartTwoStyles } from './UserFormPartTwoStyle';
 import { ProcessButton } from '../../../components/ProcessButton/ProcessButton';
-import { Navigation } from '../../screan';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
+import { FormProps, userRegisterForm } from '../UserForm';
+import { ErrorMessage } from '@hookform/error-message';
+import { BACKEND_API_URI } from '@env';
+import { userIdContext } from '../../../components/context';
 
 type RadioButtonProps = {
   gender: Gender;
   checkedGender: Gender;
   onSelect: (gender: Gender) => void;
+  setValue: UseFormSetValue<{
+    userId: string;
+    password: string;
+    height: string;
+    weight: string;
+    age: string;
+    sex: string;
+  }>;
+  watch: UseFormWatch<{
+    name: string;
+    pass: string;
+    height: string;
+    weight: string;
+    old: string;
+    sex: string;
+  }>;
 };
 
 enum Gender {
@@ -16,9 +36,42 @@ enum Gender {
   Other = 'そのた',
 }
 
-export const UserFormPartTwo: React.FC<Navigation> = ({ navigation }) => {
-  const [checkedGender, setCheckedGender] = useState<Gender>(Gender.Male);
-  const gender: Array<Gender> = [Gender.Male, Gender.Female, Gender.Other];
+const genders: Array<Gender> = [Gender.Male, Gender.Female, Gender.Other];
+
+export const UserFormPartTwo: React.FC<FormProps> = ({
+  navigation,
+  handleSubmit,
+  errors,
+  setValue,
+  watch,
+}) => {
+  const { setUserId } = useContext(userIdContext);
+  const postUserInfo = async (data: userRegisterForm) => {
+    const url = `${BACKEND_API_URI}/users`;
+
+    const form_data = new FormData();
+
+    Object.keys(data).forEach((key: string) => {
+      form_data.append(key, data[key]);
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      body: form_data,
+      redirect: 'follow',
+    };
+
+    await fetch(url, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setUserId(result.id);
+      })
+      .catch((error) => console.log('error', error));
+  };
+  const onSubmit = (data: userRegisterForm) => {
+    postUserInfo(data);
+    navigation.navigate('MainScreen');
+  };
   return (
     <View
       style={[UserFormPartTwoStyles.container, { flexDirection: 'column' }]}
@@ -27,16 +80,25 @@ export const UserFormPartTwo: React.FC<Navigation> = ({ navigation }) => {
         <Text>ここにHeader</Text>
       </View>
       <View style={[UserFormPartTwoStyles.container, { flex: 2 }]}>
-        {gender.map((gender) => {
+        {genders.map((gender) => {
           return (
             <RadioButton
               gender={gender}
-              checkedGender={checkedGender}
-              onSelect={setCheckedGender}
               key={gender}
+              setValue={setValue}
+              watch={watch}
             />
           );
         })}
+        <ErrorMessage
+          errors={errors}
+          name='age'
+          render={({ message }) => (
+            <Text style={{ fontWeight: 'bold', color: 'red', marginTop: 5 }}>
+              {message}
+            </Text>
+          )}
+        />
       </View>
       <View
         style={[
@@ -56,9 +118,7 @@ export const UserFormPartTwo: React.FC<Navigation> = ({ navigation }) => {
             content={'もどる'}
           />
           <ProcessButton
-            onClick={() => {
-              navigation.navigate('MainScreen');
-            }}
+            onClick={handleSubmit(onSubmit)}
             content={'かくてい'}
           />
         </View>
@@ -69,18 +129,25 @@ export const UserFormPartTwo: React.FC<Navigation> = ({ navigation }) => {
 
 const RadioButton: React.FC<RadioButtonProps> = ({
   gender,
-  checkedGender,
-  onSelect,
+  setValue,
+  watch,
 }) => {
+  const checkSelectedValue = (gen: Gender): boolean => {
+    const watcher = watch('sex');
+    return gen === genders[Number(watcher) - 1];
+  };
   return (
     <Pressable
       onPress={() => {
-        onSelect(gender);
+        const index: string = (
+          Object.values(Gender).indexOf(gender) + 1
+        ).toString();
+        setValue('sex', index, { shouldValidate: true });
       }}
       style={UserFormPartTwoStyles.option}
     >
       <View style={UserFormPartTwoStyles.radioButton}>
-        {gender === checkedGender && (
+        {checkSelectedValue(gender) && (
           <View style={UserFormPartTwoStyles.isCheckedRadioButon} />
         )}
       </View>

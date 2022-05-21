@@ -42,7 +42,6 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
         setUserId(data.id);
       })
       .catch((e) => console.error(e));
-    console.log(userId);
 
     if (isSuccess) {
       reset();

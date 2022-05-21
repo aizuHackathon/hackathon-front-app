@@ -29,6 +29,6 @@ export const UserFormPartOneStyles = StyleSheet.create({
     borderRadius: 10,
   },
   inputTextForm: {
-    marginVertical: 10,
+    marginVertical: 3,
   },
 });
