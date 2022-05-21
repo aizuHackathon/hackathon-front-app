@@ -6,6 +6,7 @@ import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
 import { MainScreen } from './src/screens/MainScreen/MainScreen';
 import { ExersiceRegisterScreen } from './src/screens/ExersiceRegisterScreen/ExersiceRegisterScreen';
 import { WeightRegisterScreen } from './src/screens/ExersiceRegisterScreen/WeightRegisterScreen';
+import { LogChart } from './src/screens/LogChart/LogChart';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -42,6 +43,7 @@ const App: React.VFC = () => (
         component={Exersice}
         options={{ headerShown: false }} // 最終的すべてのスクリーンにこれを適用する
       />
+      <Stack.Screen name='LogChart' component={LogChart} />
     </Stack.Navigator>
   </NavigationContainer>
 );
