@@ -7,6 +7,7 @@ import { MealRegisterScreen } from './src/screens/MealRegisterScreen/MealRegiste
 import { LogChart } from './src/screens/LogChart/LogChart';
 import { LoginScreen } from './src/screens/LoginScreen/LoginScreen';
 import { userIdContext } from './src/components/context';
+import { Evolution } from './src/screens/EvolutionScreen/Evolution';
 
 type RootStackParamList = {
   Home: undefined;
@@ -49,6 +50,11 @@ const App: React.FC = () => {
           <Stack.Screen
             name='LogChart'
             component={LogChart}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Evolution'
+            component={Evolution}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
