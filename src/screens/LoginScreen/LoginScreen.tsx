@@ -9,7 +9,7 @@ import { userIdContext } from '../../components/context';
 import { ErrorMessage } from '@hookform/error-message';
 
 export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
-  const { userId, setUserId } = useContext(userIdContext);
+  const { setUserId } = useContext(userIdContext);
   const [isFailed, setIsFailed] = useState(false);
   type data = {
     userId: string;

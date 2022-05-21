@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { userIdContext } from '../../components/context';
 import { UserFormPartOne } from './UserFormPartOne/UserFormPartOne';
 import { UserFormPartTwo } from './UserFormPartTwo/UserFormPartTwo';
 import {
