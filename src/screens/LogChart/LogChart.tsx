@@ -58,7 +58,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
         setApiDataWeight(
           data.weights?.map((obj: ApiData) => {
             return {
-              weight: Number(obj.value),
+              value: Number(obj.value),
               create_at: new Date(obj.create_at),
             };
           }),
@@ -75,7 +75,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
         setApiDataExercise(
           data.calories?.map((obj: ApiData) => {
             return {
-              calory: Number(obj.value),
+              value: Number(obj.value),
               create_at: new Date(obj.create_at),
             };
           }),
@@ -92,7 +92,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
         setApiDataMeal(
           data.calories?.map((obj: ApiData) => {
             return {
-              calory: Number(obj.value),
+              value: Number(obj.value),
               create_at: new Date(obj.create_at),
             };
           }),
@@ -102,8 +102,6 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log('called');
-
     // Call only when screen open or when back on screen
     if (isFocused) {
       getWeights();
@@ -153,10 +151,6 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
         el?.create_at?.getMonth() + 1 + '/' + el?.create_at?.getDate();
     });
 
-    console.log(dateWeight, apiDataWeight);
-    console.log(dateExercise, apiDataExercise);
-    console.log(dateMeal, apiDataMeal);
-
     setResultData({
       exercise: {
         labels: dateExercise,
@@ -188,7 +182,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
 
   return (
     <View style={LogChartStyles.container}>
-      {isLoading && !resultData ? (
+      {isLoading && resultData ? (
         <Loading />
       ) : (
         <View>
@@ -205,6 +199,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
               <Picker.Item label='体重' value='weight' />
             </Picker>
           </View>
+
           <View style={LogChartStyles.LogChartContainer}>
             {resultData && (
               <LineChart
