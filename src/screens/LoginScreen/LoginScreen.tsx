@@ -175,7 +175,7 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
           }}
         >
           <ProcessButton
-            onClick={() => navigation.navigate('UserFormPartOne')}
+            onClick={() => navigation.navigate('RegisterScreen')}
             content={'とうろく'}
           />
         </View>

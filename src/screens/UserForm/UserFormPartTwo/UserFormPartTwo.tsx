@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { UserFormPartTwoStyles } from './UserFormPartTwoStyle';
-import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
-import { Navigation } from '../screan';
+import { ProcessButton } from '../../../components/ProcessButton/ProcessButton';
+import { Navigation } from '../../screan';
 
 type RadioButtonProps = {
   gender: Gender;
