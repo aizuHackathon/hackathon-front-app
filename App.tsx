@@ -1,4 +1,4 @@
-import React, { useState, createContext, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RegisterForm } from './src/screens/UserForm/UserForm';
