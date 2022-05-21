@@ -22,7 +22,11 @@ const App: React.FC = () => {
     <userIdContext.Provider value={userIdValue}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='LoginScreen'>
-          <Stack.Screen name='LoginScreen' component={LoginScreen} />
+          <Stack.Screen
+            name='LoginScreen'
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
 
           <Stack.Screen name='UserFormPartOne' component={UserFormPartOne} />
           <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />

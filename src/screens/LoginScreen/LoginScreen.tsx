@@ -10,7 +10,7 @@ import { ErrorMessage } from '@hookform/error-message';
 
 export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
   const { userId, setUserId } = useContext(userIdContext);
-
+  const [isFailed, setIsFailed] = useState(false);
   type data = {
     userId: string;
     password: string;
@@ -30,16 +30,26 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
 
   const onSubmit = async (data: data) => {
     const url = `${BACKEND_API_URI}/login?name=${data.userId}&pass=${data.password}`;
+    let isSuccess;
     await fetch(url)
       .then((response) => response.json())
-      .then((data) => setUserId(data.id))
+      .then((data) => {
+        if (data.id === undefined) {
+          isSuccess = false;
+        } else {
+          isSuccess = true;
+        }
+        setUserId(data.id);
+      })
       .catch((e) => console.error(e));
     console.log(userId);
-    if (userId !== undefined) navigation.navigate('MainScreen');
-  };
 
-  const onError: SubmitErrorHandler<FormValues> = (errors, e) => {
-    return console.log(errors);
+    if (isSuccess) {
+      reset();
+      navigation.navigate('MainScreen');
+    } else {
+      setIsFailed(true);
+    }
   };
 
   return (
@@ -60,6 +70,18 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
         ]}
       >
         <View style={LoginScreenStyles.inputTextForm}>
+          {isFailed && (
+            <Text
+              style={{
+                color: 'red',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                marginBottom: 5,
+              }}
+            >
+              どちらかがまちがっているよ！
+            </Text>
+          )}
           <Text style={LoginScreenStyles.text}>ユーザーネーム</Text>
           <Controller
             control={control}
@@ -90,7 +112,7 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
             errors={errors}
             name='userId'
             render={({ message }) => (
-              <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
+              <Text style={{ fontWeight: 'bold', color: 'red', marginTop: 5 }}>
                 {message}
               </Text>
             )}
@@ -126,7 +148,7 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
             errors={errors}
             name='password'
             render={({ message }) => (
-              <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
+              <Text style={{ fontWeight: 'bold', color: 'red', marginTop: 5 }}>
                 {message}
               </Text>
             )}
