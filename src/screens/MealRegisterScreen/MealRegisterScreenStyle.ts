@@ -20,14 +20,13 @@ export const MealRegisterScreenStyles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
   },
   buttonText: {
     color: 'black',
     fontSize: 12,
   },
   form: {
-    padding: 10,
     width: 232,
     height: 35,
     backgroundColor: '#FFFFFF',
@@ -39,9 +38,6 @@ export const MealRegisterScreenStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     borderRadius: 10,
-    marginVertical: 30,
-  },
-  inputTextForm: {
-    marginVertical: 10,
+    marginVertical: 15,
   },
 });

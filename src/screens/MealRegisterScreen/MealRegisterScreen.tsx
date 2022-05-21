@@ -3,17 +3,60 @@ import { Text, View, TextInput } from 'react-native';
 import { MealRegisterScreenStyles } from './MealRegisterScreenStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
-import { Picker } from '@react-native-picker/picker';
 import SelectDropdown from 'react-native-select-dropdown';
-import { buttonStyles } from '../../components/ProcessButton/ProcessButtonStyles';
+import { useForm, Controller } from 'react-hook-form';
+import { BACKEND_API_URI } from '@env';
+import { ErrorMessage } from '@hookform/error-message';
+
+type data = {
+  mealType: '';
+  calorieDetail: '';
+};
 
 export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
-  const caloryOfMeal = {
-    ごはん: 100,
-    パン: 200,
-    めん: 300,
+  // https://allabout.co.jp/gm/gc/24484/
+  // 上記サイトから、平均として算出
+  const calorieOfMeal = {
+    ごはん: 400,
+    パン: 300,
+    めん: 200,
   };
-  const [selectedCalory, setSelectedCalory] = useState<string>();
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      mealType: '',
+      calorieDetail: '',
+    },
+  });
+
+  const onSubmit = async (data: data) => {
+    const finalCalorie =
+      data.calorieDetail.length > 0
+        ? data.calorieDetail
+        : calorieOfMeal[data.mealType];
+    const url = `${BACKEND_API_URI}/calorie?id=2&calorie_type=0&calorie=${finalCalorie}`;
+    const form_data = new FormData();
+
+    Object.keys(data).forEach((key: string) => {
+      form_data.append(key, data[key]);
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      body: form_data,
+      redirect: 'follow',
+    };
+
+    await fetch(url, requestOptions)
+      .then((response) => response.json())
+      .catch((error) => console.log('error', error));
+
+    navigation.navigate('MainScreen');
+  };
 
   return (
     <View
@@ -40,32 +83,84 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
             borderRadius: 10,
           }}
         >
-          <SelectDropdown
-            data={Object.keys(caloryOfMeal)}
-            defaultButtonText={'しょくじのしゅるいをえらぶ'}
-            buttonStyle={MealRegisterScreenStyles.form}
-            buttonTextStyle={MealRegisterScreenStyles.buttonText}
-            dropdownIconPosition={'right'}
-            onSelect={(selectedItem: string) => {
-              setSelectedCalory(caloryOfMeal[selectedItem]);
+          <Controller
+            name='mealType'
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'かならずえらんでね！',
+              },
             }}
-            buttonTextAfterSelection={(selectedItem) => {
-              // text represented after item is selected
-              // if data array is an array of objects then return selectedItem.property to render after item is selected
-              return selectedItem;
-            }}
-            rowTextForSelection={(item) => {
-              // text represented for each item in dropdown
-              // if data array is an array of objects then return item.property to represent item in dropdown
-              return item;
-            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <SelectDropdown
+                data={Object.keys(calorieOfMeal)}
+                defaultButtonText={'しょくじのしゅるいをえらぶ'}
+                buttonStyle={MealRegisterScreenStyles.form}
+                buttonTextStyle={MealRegisterScreenStyles.buttonText}
+                dropdownIconPosition={'right'}
+                onSelect={onChange}
+                buttonTextAfterSelection={(selectedItem) => {
+                  // text represented after item is selected
+                  // if data array is an array of objects then return selectedItem.property to render after item is selected
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item) => {
+                  // text represented for each item in dropdown
+                  // if data array is an array of objects then return item.property to represent item in dropdown
+                  return item;
+                }}
+              />
+            )}
           />
         </View>
+        <ErrorMessage
+          errors={errors}
+          name='mealType'
+          render={({ message }) => (
+            <Text
+              style={{
+                fontWeight: 'bold',
+                color: 'red',
+                textAlign: 'center',
+              }}
+            >
+              {message}
+            </Text>
+          )}
+        />
 
         <Text style={MealRegisterScreenStyles.text}>くわしく</Text>
-        <TextInput
-          onChangeText={setSelectedCalory}
-          style={MealRegisterScreenStyles.form}
+        <Controller
+          name='calorieDetail'
+          control={control}
+          rules={{
+            pattern: {
+              value: /\d+/g,
+              message: 'すうじをいれてね！',
+            },
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              autoCapitalize='none'
+              textAlign='center'
+              maxLength={4}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              style={MealRegisterScreenStyles.form}
+            />
+          )}
+        />
+        <ErrorMessage
+          errors={errors}
+          name='calorieDetail'
+          render={({ message }) => (
+            <Text
+              style={{ fontWeight: 'bold', color: 'red', textAlign: 'center' }}
+            >
+              {message}
+            </Text>
+          )}
         />
       </View>
       <View style={MealRegisterScreenStyles.MealRegisterFooterContainer}>
@@ -83,11 +178,7 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
             content={'もどる'}
           />
           <ProcessButton
-            onClick={() => {
-              // if(validete()) navigation.navigate('MainScreen');
-              console.log(selectedCalory);
-              navigation.navigate('MainScreen');
-            }}
+            onClick={handleSubmit(onSubmit)}
             content={'かくてい'}
           />
         </View>
