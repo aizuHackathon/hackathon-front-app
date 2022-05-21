@@ -57,6 +57,7 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
 
     navigation.navigate('MainScreen');
   };
+  const [selectedCalory, setSelectedCalory] = useState();
 
   return (
     <View

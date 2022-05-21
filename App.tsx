@@ -5,6 +5,7 @@ import { UserFormPartOne } from './src/screens/UserFormPartOne/UserFormPartOne';
 import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
 import { MainScreen } from './src/screens/MainScreen/MainScreen';
 import { MealRegisterScreen } from './src/screens/MealRegisterScreen/MealRegisterScreen';
+import { LogChart } from './src/screens/LogChart/LogChart';
 
 type RootStackParamList = {
   Home: undefined;
@@ -21,6 +22,7 @@ const App: React.VFC = () => (
       <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />
       <Stack.Screen name='MainScreen' component={MainScreen} />
       <Stack.Screen name='MealRegisterScreen' component={MealRegisterScreen} />
+      <Stack.Screen name='LogChart' component={LogChart} />
     </Stack.Navigator>
   </NavigationContainer>
 );
