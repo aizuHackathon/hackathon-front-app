@@ -6,35 +6,49 @@ import { LineChart } from 'react-native-chart-kit';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { LogChartStyles } from './LogChartStyle';
 import { Navigation } from '../screan';
+// @ts-expect-error envがないと怒られる。
 import { BACKEND_API_URI } from '@env';
 import { Loading } from '../../components/Loading/Loading';
+
+type ApiData = {
+  value: number;
+  create_at: Date;
+};
+
+enum MenuList {
+  Exercise = 'exercise',
+  Meal = 'meal',
+  Weight = 'weight',
+}
+
+type ResultData = Record<
+  MenuList,
+  {
+    labels: string[];
+    datasets: { data: Array<number> }[];
+  }
+>;
+
+const sortApiData = (apiData: ApiData[]): ApiData[] => {
+  if (!apiData) return [];
+  const sortedApiData = apiData.sort(
+    (a: ApiData, b: ApiData) => a.create_at?.getTime() - b.create_at?.getTime(),
+  );
+  return sortedApiData;
+};
 
 export const LogChart: React.FC<Navigation> = ({ navigation }) => {
   const userID = 2;
   const isFocused = useIsFocused();
 
-  const [selectedValue, setSelectedValue] = useState<string>();
-  const [apiDataWeight, setApiDataWeight] = useState<Array<ApiDataWeight>>();
-  const [apiDataMeal, setApiDataMeal] = useState<Array<ApiDataOther>>();
-  const [apiDataExercise, setApiDataExercise] = useState<Array<ApiDataOther>>();
+  const [selectedValue, setSelectedValue] = useState<MenuList>(
+    MenuList.Exercise,
+  );
+  const [apiDataWeight, setApiDataWeight] = useState<ApiData[]>();
+  const [apiDataMeal, setApiDataMeal] = useState<ApiData[]>();
+  const [apiDataExercise, setApiDataExercise] = useState<ApiData[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [resultData, setResultData] = useState<ResultData>();
-
-  type ApiDataWeight = {
-    value: number;
-    create_at: Date;
-  };
-  type ApiDataOther = {
-    value: number;
-    create_at: Date;
-  };
-
-  type ResultData = {
-    [key: string]: {
-      labels: Array<number>;
-      datasets: Array<{ data: Array<number> }>;
-    };
-  };
 
   const getWeights = async () => {
     const url = `${BACKEND_API_URI}/weight?id=${userID}`;
@@ -42,7 +56,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
       .then((response) => response.json())
       .then((data) => {
         setApiDataWeight(
-          data.weights?.map((obj: ApiDataWeight) => {
+          data.weights?.map((obj: ApiData) => {
             return {
               weight: Number(obj.value),
               create_at: new Date(obj.create_at),
@@ -59,7 +73,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
       .then((response) => response.json())
       .then((data) => {
         setApiDataExercise(
-          data.calories?.map((obj: ApiDataOther) => {
+          data.calories?.map((obj: ApiData) => {
             return {
               calory: Number(obj.value),
               create_at: new Date(obj.create_at),
@@ -76,7 +90,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
       .then((response) => response.json())
       .then((data) => {
         setApiDataMeal(
-          data.calories?.map((obj: ApiDataOther) => {
+          data.calories?.map((obj: ApiData) => {
             return {
               calory: Number(obj.value),
               create_at: new Date(obj.create_at),
@@ -85,16 +99,6 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
         );
       })
       .catch((e) => console.error(e));
-  };
-  const sortApiData = (
-    apiData: Array<ApiDataWeight | ApiDataOther>,
-  ): Array<ApiDataWeight | ApiDataOther> => {
-    if (typeof apiData === 'undefined') return [];
-    const sortedApiData = apiData.sort(
-      (a: ApiDataWeight | ApiDataOther, b: ApiDataWeight | ApiDataOther) =>
-        a.create_at?.getTime() - b.create_at?.getTime(),
-    );
-    return sortedApiData;
   };
 
   useEffect(() => {
@@ -109,16 +113,11 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
   }, [isFocused]);
 
   useEffect(() => {
-    if (
-      typeof apiDataWeight === 'undefined' ||
-      typeof apiDataExercise === 'undefined' ||
-      typeof apiDataMeal === 'undefined'
-    ) {
+    if (!apiDataWeight || !apiDataExercise || !apiDataMeal) {
       return;
     }
     const sortedApiDataWeight = sortApiData(apiDataWeight);
     const sortedApiDataExercise = sortApiData(apiDataExercise);
-    const sortedApiDataMeal = sortApiData(apiDataMeal);
     const between =
       sortedApiDataWeight[
         sortedApiDataWeight.length - 1
@@ -126,7 +125,6 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
     const day = 1000 * 60 * 60 * 24; // 1日以下
     const judge = between < day;
 
-    const weight = new Array(apiDataWeight?.length);
     const dateWeight = new Array(apiDataWeight?.length);
     const caloryExcercise = new Array(apiDataExercise?.length);
     const dateExercise = new Array(apiDataExercise?.length);
@@ -186,11 +184,11 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
       },
     });
     setIsLoading(false);
-  }, [apiDataExercise]);
+  }, [apiDataExercise, apiDataMeal, apiDataWeight]);
 
   return (
     <View style={LogChartStyles.container}>
-      {isLoading && typeof resultData !== 'undefined' ? (
+      {isLoading && !resultData ? (
         <Loading />
       ) : (
         <View>
@@ -198,7 +196,9 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
             <Picker
               selectedValue={selectedValue}
               style={{ height: 50, width: 150 }}
-              onValueChange={(itemValue: string) => setSelectedValue(itemValue)}
+              onValueChange={(itemValue: MenuList) =>
+                setSelectedValue(itemValue)
+              }
             >
               <Picker.Item label='運動' value='exercise' />
               <Picker.Item label='食事' value='meal' />
@@ -206,38 +206,39 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
             </Picker>
           </View>
           <View style={LogChartStyles.LogChartContainer}>
-            <LineChart
-              // HELPME : undefinedの時にも表示されてまう
-              data={resultData[selectedValue]}
-              width={Dimensions.get('window').width - 20} // from react-native
-              height={220}
-              yAxisSuffix={selectedValue === 'weight' ? 'kg' : 'kcal'}
-              yAxisInterval={1} // optional, defaults to 1
-              segments={5}
-              yLabelsOffset={selectedValue === 'weight' ? 10 : 7}
-              chartConfig={{
-                backgroundColor: '#E7C0C0',
-                backgroundGradientFrom: '#bfa2a2',
-                backgroundGradientTo: '#bfa2a2',
-                decimalPlaces: 1, // optional, defaults to 2dp
-                color: (opacity = 0.3) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 0.3) =>
-                  `rgba(255, 255, 255, ${opacity})`,
-                style: {
+            {resultData && (
+              <LineChart
+                data={resultData[selectedValue]}
+                width={Dimensions.get('window').width - 20} // from react-native
+                height={220}
+                yAxisSuffix={selectedValue === 'weight' ? 'kg' : 'kcal'}
+                yAxisInterval={1} // optional, defaults to 1
+                segments={5}
+                yLabelsOffset={selectedValue === 'weight' ? 10 : 7}
+                chartConfig={{
+                  backgroundColor: '#E7C0C0',
+                  backgroundGradientFrom: '#bfa2a2',
+                  backgroundGradientTo: '#bfa2a2',
+                  decimalPlaces: 1, // optional, defaults to 2dp
+                  color: (opacity = 0.3) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 0.3) =>
+                    `rgba(255, 255, 255, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                  },
+                  propsForDots: {
+                    r: '3',
+                    strokeWidth: '4',
+                    stroke: '#FFE5A3',
+                  },
+                }}
+                bezier
+                style={{
+                  marginVertical: 8,
                   borderRadius: 16,
-                },
-                propsForDots: {
-                  r: '3',
-                  strokeWidth: '4',
-                  stroke: '#FFE5A3',
-                },
-              }}
-              bezier
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-            />
+                }}
+              />
+            )}
           </View>
           <View style={LogChartStyles.footerContainer}>
             <ProcessButton
