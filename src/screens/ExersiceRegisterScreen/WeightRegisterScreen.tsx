@@ -2,17 +2,10 @@ import React, { useState } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { WeightRegisterScreenStyles } from './WeightRegisterScreenStyles';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
-import { Navigation } from '../screan';
 import SelectDropdown from 'react-native-select-dropdown';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../App';
+import { Navigation } from '../screan';
 
-type NavigationProp = StackScreenProps<
-  RootStackParamList,
-  'ExersiceRegisterScreen'
->;
-
-export const WeightRegisterScreen: React.FC<NavigationProp> = ({
+export const WeightRegisterScreen: React.FC<Navigation> = ({
   navigation,
   route,
 }) => {
@@ -21,7 +14,6 @@ export const WeightRegisterScreen: React.FC<NavigationProp> = ({
   let second = time / 1000; //秒に変換
   let minutes;
   let hour;
-  let unit: string;
   if (second >= 60 && 3600 > second) {
     minutes = Math.floor(second / 60);
     second = second % 60;
@@ -81,13 +73,9 @@ export const WeightRegisterScreen: React.FC<NavigationProp> = ({
               setSelectedExercise(kindOfExercise[selectedExercise]);
             }}
             buttonTextAfterSelection={(selectedItem) => {
-              // text represented after item is selected
-              // if data array is an array of objects then return selectedItem.property to render after item is selected
               return selectedItem;
             }}
             rowTextForSelection={(item) => {
-              // text represented for each item in dropdown
-              // if data array is an array of objects then return item.property to represent item in dropdown
               return item;
             }}
           />
