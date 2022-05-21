@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, createContext, useMemo } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { UserFormPartOne } from './src/screens/UserFormPartOne/UserFormPartOne';
-import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
+import { RegisterForm } from './src/screens/UserForm/UserForm';
 import { MainScreen } from './src/screens/MainScreen/MainScreen';
 import { MealRegisterScreen } from './src/screens/MealRegisterScreen/MealRegisterScreen';
 import { LogChart } from './src/screens/LogChart/LogChart';
+import { LoginScreen } from './src/screens/LoginScreen/LoginScreen';
+import { userIdContext } from './src/components/context';
 
 type RootStackParamList = {
   Home: undefined;
@@ -15,16 +16,33 @@ type RootStackParamList = {
 // TODO: Stackがコンポーネントとして使えないとerrorが出るので、anyを使わずにできるようにする。
 const Stack = createNativeStackNavigator<RootStackParamList>() as any;
 
-const App: React.VFC = () => (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName='UserFormPartOne'>
-      <Stack.Screen name='UserFormPartOne' component={UserFormPartOne} />
-      <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />
-      <Stack.Screen name='MainScreen' component={MainScreen} />
-      <Stack.Screen name='MealRegisterScreen' component={MealRegisterScreen} />
-      <Stack.Screen name='LogChart' component={LogChart} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+const App: React.FC = () => {
+  const [userId, setUserId] = useState<string>();
+  const userIdValue = useMemo(() => ({ userId, setUserId }), [userId]);
+  return (
+    <userIdContext.Provider value={userIdValue}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='LoginScreen'>
+          <Stack.Screen
+            name='LoginScreen'
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='RegisterScreen'
+            component={RegisterForm}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name='MainScreen'
+            component={MainScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </userIdContext.Provider>
+  );
+};
 
 export default App;
