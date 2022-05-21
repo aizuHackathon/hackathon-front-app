@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Navigation } from '../screan';
 import { MainScreenStyles } from './MainScreenStyle';
@@ -14,6 +14,7 @@ import Diet from '../../../assets/images/diet.jpg';
 import Graph1 from '../../../assets/images/graph1.jpg';
 import Sports from '../../../assets/images/sport.jpg';
 import { WEATHER_API_KEY } from '@env';
+import { userIdContext } from '../../components/context';
 
 export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   type BGImageUriObjectType = {
@@ -38,6 +39,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [cityName, setCityName] = useState('tokyo');
   const [weather, setWeather] = useState('Clear');
+  const { userId } = useContext(userIdContext);
 
   // 天気のAPIから現在の天気を取得する関数
   const getWeatherInfo = async () => {

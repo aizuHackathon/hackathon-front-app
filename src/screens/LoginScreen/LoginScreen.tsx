@@ -1,12 +1,47 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { LoginScreenStyles } from './LoginScreenStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
 import { Navigation } from '../screan';
+import { useForm, Controller } from 'react-hook-form';
+import { BACKEND_API_URI } from '@env';
+import { userIdContext } from '../../components/context';
+import { ErrorMessage } from '@hookform/error-message';
 
 export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
-  const [userID, setUserID] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const { userId, setUserId } = useContext(userIdContext);
+
+  type data = {
+    userId: string;
+    password: string;
+  };
+
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      userId: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: data) => {
+    const url = `${BACKEND_API_URI}/login?name=${data.userId}&pass=${data.password}`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => setUserId(data.id))
+      .catch((e) => console.error(e));
+    console.log(userId);
+    if (userId !== undefined) navigation.navigate('MainScreen');
+  };
+
+  const onError: SubmitErrorHandler<FormValues> = (errors, e) => {
+    return console.log(errors);
+  };
+
   return (
     <View
       style={[
@@ -25,19 +60,76 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
         ]}
       >
         <View style={LoginScreenStyles.inputTextForm}>
-          <Text style={LoginScreenStyles.text}>にっくねーむ</Text>
-          <TextInput
-            onChangeText={setUserID}
-            value={userID}
-            style={LoginScreenStyles.form}
+          <Text style={LoginScreenStyles.text}>ユーザーネーム</Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                autoCapitalize={'none'}
+                textContentType={'username'}
+                textAlign={'center'}
+                style={LoginScreenStyles.form}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value}
+              />
+            )}
+            name='userId'
+            rules={{
+              required: {
+                value: true,
+                message: 'ぜったいにゅうりょくしてね！',
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
+                message: 'ローマじかすうじでいれてね！',
+              },
+            }}
+          />
+          <ErrorMessage
+            errors={errors}
+            name='userId'
+            render={({ message }) => (
+              <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
+                {message}
+              </Text>
+            )}
           />
         </View>
         <View style={LoginScreenStyles.inputTextForm}>
-          <Text style={LoginScreenStyles.text}>ぱすわーど</Text>
-          <TextInput
-            onChangeText={setPassword}
-            value={password}
-            style={LoginScreenStyles.form}
+          <Text style={LoginScreenStyles.text}>パスワード</Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                autoCapitalize={'none'}
+                textAlign={'center'}
+                secureTextEntry={true}
+                style={LoginScreenStyles.form}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+              />
+            )}
+            name='password'
+            rules={{
+              required: {
+                value: true,
+                message: 'ぜったいにゅうりょくしてね！',
+              },
+              pattern: {
+                value: /^[a-zA-Z]*$/,
+                message: 'ローマじをいれてね',
+              },
+            }}
+          />
+          <ErrorMessage
+            errors={errors}
+            name='password'
+            render={({ message }) => (
+              <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
+                {message}
+              </Text>
+            )}
           />
         </View>
         <View
@@ -48,7 +140,7 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
           }}
         >
           <ProcessButton
-            onClick={() => navigation.navigate('MainScreen')}
+            onClick={handleSubmit(onSubmit)}
             content={'ログイン'}
           />
         </View>
