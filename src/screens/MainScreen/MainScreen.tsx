@@ -82,9 +82,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, data === 1);
         if (data === 1) {
-          console.log(data);
           navigation.navigate('Evolution');
           // wait until go to Evolution screen
           setTimeout(function () {
