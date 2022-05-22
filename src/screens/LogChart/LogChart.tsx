@@ -27,6 +27,7 @@ type ResultData = Record<
   {
     labels: string[];
     datasets: { data: Array<number> }[];
+    legend: string[];
   }
 >;
 
@@ -160,6 +161,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
             data: apiDataExercise.map((el) => el.value),
           },
         ],
+        legend: ['kcal'],
       },
       meal: {
         labels: dateMeal,
@@ -168,6 +170,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
             data: apiDataMeal.map((el) => el.value),
           },
         ],
+        legend: ['kcal'],
       },
       weight: {
         labels: dateWeight,
@@ -176,6 +179,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
             data: apiDataWeight.map((el) => el.value),
           },
         ],
+        legend: ['kg'],
       },
     });
     setIsLoading(false);
@@ -207,7 +211,6 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
                 data={resultData[selectedValue]}
                 width={Dimensions.get('window').width - 20} // from react-native
                 height={220}
-                yAxisSuffix={selectedValue === 'weight' ? 'kg' : 'kcal'}
                 yAxisInterval={1} // optional, defaults to 1
                 segments={5}
                 yLabelsOffset={selectedValue === 'weight' ? 10 : 7}
