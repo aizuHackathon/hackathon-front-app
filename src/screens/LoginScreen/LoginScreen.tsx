@@ -102,7 +102,7 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
                 message: 'ぜったいにゅうりょくしてね！',
               },
               pattern: {
-                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
+                value: /^[0-9a-zA-Z]*/,
                 message: 'ローマじかすうじでいれてね！',
               },
             }}
@@ -138,8 +138,8 @@ export const LoginScreen: React.FC<Navigation> = ({ navigation }) => {
                 message: 'ぜったいにゅうりょくしてね！',
               },
               pattern: {
-                value: /^[a-zA-Z]*$/,
-                message: 'ローマじをいれてね',
+                value: /^[0-9a-zA-Z]*/,
+                message: 'ローマじかすうじでいれてね！',
               },
             }}
           />

@@ -57,7 +57,6 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
 
     navigation.navigate('MainScreen');
   };
-  const [selectedCalory, setSelectedCalory] = useState();
 
   return (
     <View
@@ -93,7 +92,7 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
                 message: 'かならずえらんでね！',
               },
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange } }) => (
               <SelectDropdown
                 data={Object.keys(calorieOfMeal)}
                 defaultButtonText={'しょくじのしゅるいをえらぶ'}
@@ -141,11 +140,11 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
               message: 'すうじをいれてね！',
             },
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur } }) => (
             <TextInput
               autoCapitalize='none'
               textAlign='center'
-              maxLength={4}
+              maxLength={5}
               onChangeText={onChange}
               onBlur={onBlur}
               style={MealRegisterScreenStyles.form}

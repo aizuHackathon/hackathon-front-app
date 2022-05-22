@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { View, Dimensions } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -9,6 +9,7 @@ import { Navigation } from '../screan';
 // @ts-expect-error envがないと怒られる。
 import { BACKEND_API_URI } from '@env';
 import { Loading } from '../../components/Loading/Loading';
+import { userIdContext } from '../../components/context';
 
 type ApiData = {
   value: number;
@@ -38,7 +39,7 @@ const sortApiData = (apiData: ApiData[]): ApiData[] => {
 };
 
 export const LogChart: React.FC<Navigation> = ({ navigation }) => {
-  const userID = 2;
+  const { userId } = useContext(userIdContext);
   const isFocused = useIsFocused();
 
   const [selectedValue, setSelectedValue] = useState<MenuList>(
@@ -51,7 +52,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
   const [resultData, setResultData] = useState<ResultData>();
 
   const getWeights = async () => {
-    const url = `${BACKEND_API_URI}/weight?id=${userID}`;
+    const url = `${BACKEND_API_URI}/weight?id=${userId}`;
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -68,7 +69,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
     setIsLoading(false);
   };
   const getMealCalorie = async () => {
-    const url = `${BACKEND_API_URI}/calorie?id=${userID}&calorie_type=0`;
+    const url = `${BACKEND_API_URI}/calorie?id=${userId}&calorie_type=0`;
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -85,7 +86,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
     setIsLoading(false);
   };
   const getExerciseCalorie = async () => {
-    const url = `${BACKEND_API_URI}/calorie?id=${userID}&calorie_type=1`;
+    const url = `${BACKEND_API_URI}/calorie?id=${userId}&calorie_type=1`;
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -108,7 +109,7 @@ export const LogChart: React.FC<Navigation> = ({ navigation }) => {
       getMealCalorie();
       getExerciseCalorie();
     }
-  }, [isFocused]);
+  }, [isFocused, userId]);
 
   useEffect(() => {
     if (!apiDataWeight || !apiDataExercise || !apiDataMeal) {

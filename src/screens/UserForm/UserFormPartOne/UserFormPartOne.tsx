@@ -97,7 +97,7 @@ export const UserFormPartOne: React.FC<FormProps> = ({
                 message: ErrorMessages.REQUIRED,
               },
               pattern: {
-                value: /^[a-zA-Z0-9!-/:-@¥[-`{-~]*$/,
+                value: /^[0-9a-zA-Z]*$/,
                 message: ErrorMessages.ENGLISH_ONLY,
               },
             }}
