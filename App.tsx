@@ -12,19 +12,28 @@ import { userIdContext, userEvolutionContext } from './src/components/context';
 import { Evolution } from './src/screens/EvolutionScreen/Evolution';
 
 export type RootStackParamList = {
-  Home: undefined;
-  InitializeUserForm: undefined;
-  ExersiceRegisterScreen: { totalSeconds: number };
+  LoginScreen: undefined;
+  RegisterScreen: undefined;
+  MainScreen: undefined;
+  MealRegisterScreen: undefined;
+  LogChart: undefined;
+  ExersiceRegisterScreen: undefined;
+  Evolution: undefined;
+};
+
+export type RootTabParamList = {
+  ExersiceRegisterScreen: undefined;
+  WeightRegisterScreen: { totalSeconds: number };
 };
 
 // TODO: Stackがコンポーネントとして使えないとerrorが出るので、anyを使わずにできるようにする。
 const Stack = createNativeStackNavigator<RootStackParamList>() as any;
-const Tab = createNativeStackNavigator<RootStackParamList>() as any;
+const Tab = createNativeStackNavigator<RootTabParamList>() as any;
 const Exersice: React.VFC = () => {
   return (
-    <Tab.Navigator initialRouteName='ExersiceRegisterScreen'>
+    <Tab.Navigator initialRouteName='ExersiceRegisterScreenTwo'>
       <Tab.Screen
-        name='ExersiceRegisterScreen'
+        name='ExersiceRegisterScreenTwo'
         component={ExersiceRegisterScreen}
       />
       <Tab.Screen

@@ -85,7 +85,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
         if (data === 1) {
           navigation.navigate('Evolution');
           // wait until go to Evolution screen
-          setTimeout(function () {
+          setTimeout(() => {
             setUserIsEvoluted('1');
           }, 5000);
         }
