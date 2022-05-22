@@ -73,8 +73,9 @@ export const ExersiceRegisterScreen: React.FC<Navigation> = ({
           />
           <ProcessButton
             onClick={() => {
-              // if(validete()) navigation.navigate('MainScreen');
-              navigation.navigate('WeightRegisterScreen', { time: time });
+              navigation.navigate('WeightRegisterScreen', {
+                totalSeconds: time,
+              });
             }}
             content={'かくてい'}
           />

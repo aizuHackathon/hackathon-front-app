@@ -20,6 +20,7 @@ export const WeightRegisterScreenStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
+    textAlign: 'center',
     padding: 10,
     width: 232,
     height: 35,

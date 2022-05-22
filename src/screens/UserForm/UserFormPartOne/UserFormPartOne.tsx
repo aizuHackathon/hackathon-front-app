@@ -6,6 +6,7 @@ import { Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { BACKEND_API_URI } from '@env';
 import { FormProps } from '../UserForm';
+import { ErrorMessages } from '../../CONSTANTS';
 
 export const UserFormPartOne: React.FC<FormProps> = ({
   navigation,
@@ -40,12 +41,6 @@ export const UserFormPartOne: React.FC<FormProps> = ({
       setShowErrorMessage(false);
       navigation.navigate('UserFormPartTwo');
     }
-  };
-
-  const ErrorMessages = {
-    REQUIRED: 'かならずいれててね！',
-    ENGLISH_ONLY: 'ローマじかすうじをいれてね！',
-    NUMBER_ONLY: 'すうじをいれてね！',
   };
 
   return (

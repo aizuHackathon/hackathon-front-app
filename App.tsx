@@ -14,7 +14,7 @@ import { Evolution } from './src/screens/EvolutionScreen/Evolution';
 export type RootStackParamList = {
   Home: undefined;
   InitializeUserForm: undefined;
-  ExersiceRegisterScreen: { time: number };
+  ExersiceRegisterScreen: { totalSeconds: number };
 };
 
 // TODO: Stackがコンポーネントとして使えないとerrorが出るので、anyを使わずにできるようにする。
@@ -80,7 +80,7 @@ const App: React.FC = () => {
             <Stack.Screen
               name='ExersiceRegisterScreen'
               component={Exersice}
-              options={{ headerShown: false }} // 最終的すべてのスクリーンにこれを適用する
+              options={{ headerShown: false }}
             />
 
             <Stack.Screen
