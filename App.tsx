@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { UserFormPartOne } from './src/screens/UserFormPartOne/UserFormPartOne';
-import { UserFormPartTwo } from './src/screens/UserFormPartTwo/UserFormPartTwo';
+import { RegisterForm } from './src/screens/UserForm/UserForm';
 import { MainScreen } from './src/screens/MainScreen/MainScreen';
 import { ExersiceRegisterScreen } from './src/screens/ExersiceRegisterScreen/ExersiceRegisterScreen';
 import { WeightRegisterScreen } from './src/screens/ExersiceRegisterScreen/WeightRegisterScreen';
+import { MealRegisterScreen } from './src/screens/MealRegisterScreen/MealRegisterScreen';
 import { LogChart } from './src/screens/LogChart/LogChart';
+import { LoginScreen } from './src/screens/LoginScreen/LoginScreen';
+import { userIdContext, userEvolutionContext } from './src/components/context';
+import { Evolution } from './src/screens/EvolutionScreen/Evolution';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -32,20 +35,64 @@ const Exersice: React.VFC = () => {
   );
 };
 
-const App: React.VFC = () => (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName='UserFormPartOne'>
-      <Stack.Screen name='UserFormPartOne' component={UserFormPartOne} />
-      <Stack.Screen name='UserFormPartTwo' component={UserFormPartTwo} />
-      <Stack.Screen name='MainScreen' component={MainScreen} />
-      <Stack.Screen
-        name='ExersiceRegisterScreen'
-        component={Exersice}
-        options={{ headerShown: false }} // 最終的すべてのスクリーンにこれを適用する
-      />
-      <Stack.Screen name='LogChart' component={LogChart} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+const App: React.FC = () => {
+  const [userId, setUserId] = useState<string>();
+  const userIdValue = useMemo(() => ({ userId, setUserId }), [userId]);
+  const [userIsEvoluted, setUserIsEvoluted] = useState('0');
+  const userEvoluationValue = useMemo(
+    () => ({ userIsEvoluted, setUserIsEvoluted }),
+    [userIsEvoluted],
+  );
+  return (
+    <userIdContext.Provider value={userIdValue}>
+      <userEvolutionContext.Provider value={userEvoluationValue}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='LoginScreen'>
+            <Stack.Screen
+              name='LoginScreen'
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='RegisterScreen'
+              component={RegisterForm}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name='MainScreen'
+              component={MainScreen}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name='MealRegisterScreen'
+              component={MealRegisterScreen}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name='LogChart'
+              component={LogChart}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name='ExersiceRegisterScreen'
+              component={Exersice}
+              options={{ headerShown: false }} // 最終的すべてのスクリーンにこれを適用する
+            />
+
+            <Stack.Screen
+              name='Evolution'
+              component={Evolution}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </userEvolutionContext.Provider>
+    </userIdContext.Provider>
+  );
+};
 
 export default App;

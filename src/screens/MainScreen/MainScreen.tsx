@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Navigation } from '../screan';
 import { MainScreenStyles } from './MainScreenStyle';
@@ -14,7 +14,9 @@ import CharacterTwo_2 from '../../../assets/images/character2_2.png';
 import Diet from '../../../assets/images/diet.jpg';
 import Graph1 from '../../../assets/images/graph1.jpg';
 import Sports from '../../../assets/images/sport.jpg';
-import { WEATHER_API_KEY } from '@env';
+import { WEATHER_API_KEY, BACKEND_API_URI } from '@env';
+import { userEvolutionContext, userIdContext } from '../../components/context';
+import { useIsFocused } from '@react-navigation/native';
 
 export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   type BGImageUriObjectType = {
@@ -31,8 +33,8 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
 
   const CImageUriArray = [
     Image.resolveAssetSource(CharacterOne).uri,
-    Image.resolveAssetSource(CharacterTwo).uri,
     Image.resolveAssetSource(CharacterOne_2).uri,
+    Image.resolveAssetSource(CharacterTwo).uri,
     Image.resolveAssetSource(CharacterTwo_2).uri,
   ];
 
@@ -41,6 +43,10 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   const [weather, setWeather] = useState('Clear');
   const [isTimeout, setIsTimeout] = useState(false);
   const [characterWord, setCharacterWord] = useState(10000000000);
+  const { userId } = useContext(userIdContext);
+  const { userIsEvoluted, setUserIsEvoluted } =
+    useContext(userEvolutionContext);
+  const isFocused = useIsFocused();
 
   // 天気のAPIから現在の天気を取得する関数
   const getWeatherInfo = async () => {
@@ -70,6 +76,30 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
       clearInterval(updateWordsBy3s);
     };
   }, [isTimeout]);
+
+  const getIsEvoluted = async () => {
+    const url = `${BACKEND_API_URI}/evolution?id=${userId}`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, data === 1);
+        if (data === 1) {
+          console.log(data);
+          navigation.navigate('Evolution');
+          // wait until go to Evolution screen
+          setTimeout(function () {
+            setUserIsEvoluted('1');
+          }, 5000);
+        }
+      })
+      .catch((e) => console.error(e));
+  };
+
+  useEffect(() => {
+    if (userIsEvoluted === '0') {
+      getIsEvoluted();
+    }
+  }, [userId, userIsEvoluted, isFocused]);
 
   return (
     <View style={MainScreenStyles.container}>
@@ -106,7 +136,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
             <Image
               // ↓ランダムの場合
               // source={{ uri: CImageUriArray[Math.floor(Math.random() * 2)] }}
-              source={{ uri: CImageUriArray[0] }}
+              source={{ uri: CImageUriArray[userIsEvoluted] }}
               resizeMode='contain'
               style={MainScreenStyles.characterImage}
             />
@@ -117,34 +147,12 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
             z-index : 1
           */}
           <View style={MainScreenStyles.TopLevelContainer}>
-            <View style={MainScreenStyles.HeaderBtnGroup}>
-              <View style={MainScreenStyles.HeaderBtn}>
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={MainScreenStyles.settingBtn}
-                  onPress={() => console.log('?')}
-                >
-                  <Text style={MainScreenStyles.settingBtnText}>?</Text>
-                </TouchableOpacity>
-              </View>
-
-              <View style={MainScreenStyles.HeaderBtn}>
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={MainScreenStyles.settingBtn}
-                  onPress={() => console.log('#')}
-                >
-                  <Text style={MainScreenStyles.settingBtnText}>#</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
             <View style={MainScreenStyles.BottomBtnGroup}>
               <View style={MainScreenStyles.BottomBtn}>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.leftBtn}
-                  onPress={() => console.log(1)}
+                  onPress={() => navigation.navigate('MealRegisterScreen')}
                 >
                   <Image
                     source={{

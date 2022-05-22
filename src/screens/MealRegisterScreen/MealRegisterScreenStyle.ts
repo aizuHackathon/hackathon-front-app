@@ -1,21 +1,32 @@
 import { StyleSheet } from 'react-native';
 
-export const UserFormPartOneStyles = StyleSheet.create({
+export const MealRegisterScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  MealRegisterHeaderContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  MealRegisterFooterContainer: {
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
     color: 'white',
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
+  },
+  buttonText: {
+    color: 'black',
+    fontSize: 12,
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    padding: 10,
     width: 232,
     height: 35,
     backgroundColor: '#FFFFFF',
@@ -27,8 +38,6 @@ export const UserFormPartOneStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     borderRadius: 10,
-  },
-  inputTextForm: {
-    marginVertical: 10,
+    marginVertical: 15,
   },
 });
