@@ -85,7 +85,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
         if (data === 1) {
           navigation.navigate('Evolution');
           // wait until go to Evolution screen
-          setTimeout(function () {
+          setTimeout(() => {
             setUserIsEvoluted('1');
           }, 5000);
         }
@@ -97,7 +97,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
     if (userIsEvoluted === '0') {
       getIsEvoluted();
     }
-  }, [userId, userIsEvoluted, isFocused]);
+  }, [userIsEvoluted, isFocused]);
 
   return (
     <View style={MainScreenStyles.container}>
@@ -176,7 +176,7 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   style={MainScreenStyles.rightBtn}
-                  onPress={() => console.log(3)}
+                  onPress={() => navigation.navigate('ExersiceRegisterScreen')}
                 >
                   <Image
                     source={{

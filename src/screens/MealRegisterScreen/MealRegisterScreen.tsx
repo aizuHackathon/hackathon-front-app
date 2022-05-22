@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { MealRegisterScreenStyles } from './MealRegisterScreenStyle';
 import { ProcessButton } from '../../components/ProcessButton/ProcessButton';
@@ -7,6 +7,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { useForm, Controller } from 'react-hook-form';
 import { BACKEND_API_URI } from '@env';
 import { ErrorMessage } from '@hookform/error-message';
+import { userIdContext } from '../../components/context';
 
 type data = {
   mealType: '';
@@ -33,12 +34,14 @@ export const MealRegisterScreen: React.FC<Navigation> = ({ navigation }) => {
     },
   });
 
+  const { userId } = useContext(userIdContext);
+
   const onSubmit = async (data: data) => {
     const finalCalorie =
       data.calorieDetail.length > 0
         ? data.calorieDetail
         : calorieOfMeal[data.mealType];
-    const url = `${BACKEND_API_URI}/calorie?id=2&calorie_type=0&calorie=${finalCalorie}`;
+    const url = `${BACKEND_API_URI}/calorie?id=${userId}&calorie_type=0&calorie=${finalCalorie}`;
     const form_data = new FormData();
 
     Object.keys(data).forEach((key: string) => {
