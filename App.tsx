@@ -35,10 +35,12 @@ const Exersice: React.VFC = () => {
       <Tab.Screen
         name='ExersiceRegisterScreenTwo'
         component={ExersiceRegisterScreen}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         name='WeightRegisterScreen'
         component={WeightRegisterScreen}
+        options={{ headerShown: false }}
       />
     </Tab.Navigator>
   );

@@ -64,17 +64,29 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
       .catch((error) => console.error('通信に失敗しました', error));
   };
 
+  const getKakugen = async () => {
+    const url = `${BACKEND_API_URI}/kakugen`;
+    await fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.error('通信に失敗しました', error));
+  };
+
   useEffect(() => {
     getWeatherInfo();
 
-    const updateWordsBy3s = setInterval(() => {
+    /*    const updateWordsBy3s = setInterval(() => {
       setIsTimeout(!isTimeout);
       if (!isTimeout) setCharacterWord(Math.floor(Math.random() * 10000000000));
     }, 5000);
 
     return () => {
       clearInterval(updateWordsBy3s);
-    };
+    }; */
   }, [isTimeout]);
 
   const getIsEvoluted = async () => {
