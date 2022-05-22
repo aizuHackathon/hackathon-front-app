@@ -17,6 +17,8 @@ import Sports from '../../../assets/images/sport.jpg';
 import { WEATHER_API_KEY, BACKEND_API_URI } from '@env';
 import { userEvolutionContext, userIdContext } from '../../components/context';
 import { useIsFocused } from '@react-navigation/native';
+import { Audio } from 'expo-av';
+import BGM from '../../../assets/sounds/forest.mp3';
 
 export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
   type BGImageUriObjectType = {
@@ -24,6 +26,16 @@ export const MainScreen: React.FC<Navigation> = ({ navigation }) => {
     Clouds: string;
     Clear: string;
   };
+
+  const playSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(BGM);
+    await sound.playAsync();
+    await sound.setIsLoopingAsync(true);
+  };
+
+  useEffect(() => {
+    playSound();
+  }, []);
 
   const BGImageUriObject: BGImageUriObjectType = {
     Rain: Image.resolveAssetSource(rainyImage).uri,
